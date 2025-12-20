@@ -11,22 +11,22 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
     Route::group(['controller' => 'AuthController'], function () {
         Route::post('login', 'login')->name('login');
         Route::post('register', 'register')->name('register');
-        Route::middleware('auth:api')->group(function() {
-            Route::post('change-password', 'changePassword')->name('change.password');
-            Route::get('profile', 'profile')->name('profile');
-            Route::post('profile/edit', 'profileEdit')->name('profile.edit');
-        });
+        // Route::middleware('auth:api')->group(function() {
+        //     Route::post('change-password', 'changePassword')->name('change.password');
+        //     Route::get('profile', 'profile')->name('profile');
+        //     Route::post('profile/edit', 'profileEdit')->name('profile.edit');
+        // });
     });
-    Route::middleware('auth:api')->group(function () {
-        Route::group(['controller' => 'ApiController'], function () {
-            Route::post('github-webhooks', 'githubWebhook')->withoutMiddleware('api');
-            Route::post('calculate', 'calculateDay')->name('calculate.days');
-            Route::get('main', 'main')->name('main');
-            Route::post('liked', 'liked')->name('liked');
-        });
-        Route::apiResource('articles', 'ArticleController')->only(['index', 'show']);
-        Route::apiResource('body-changes', 'BodyChangeController')->only(['index', 'show']);
-        Route::apiResource('weekly-baby-growth', 'WeeklyBabyGrowthController')->only(['index', 'show']);
-        Route::apiResource('notifications', 'NotificationController')->only(['index', 'show']);
-    });
+    // Route::middleware('auth:api')->group(function () {
+    //     Route::group(['controller' => 'ApiController'], function () {
+    //         Route::post('github-webhooks', 'githubWebhook')->withoutMiddleware('api');
+    //         Route::post('calculate', 'calculateDay')->name('calculate.days');
+    //         Route::get('main', 'main')->name('main');
+    //         Route::post('liked', 'liked')->name('liked');
+    //     });
+    //     Route::apiResource('articles', 'ArticleController')->only(['index', 'show']);
+    //     Route::apiResource('body-changes', 'BodyChangeController')->only(['index', 'show']);
+    //     Route::apiResource('weekly-baby-growth', 'WeeklyBabyGrowthController')->only(['index', 'show']);
+    //     Route::apiResource('notifications', 'NotificationController')->only(['index', 'show']);
+    // });
 });
