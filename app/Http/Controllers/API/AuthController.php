@@ -36,9 +36,9 @@ class AuthController extends BaseController
         Auth::login($user);
         $token = $user->createToken($data['email'])->plainTextToken;
 
-        $bool = $user->person->expected_date != null ? true : false;
+        // $bool = $user->person->expected_date != null ? true : false;
 
-        return $this->sendResponse(['token' => $token, 'calculated' => $bool]);
+        return $this->sendResponse(['token' => $token, 'user' => $user]);
     }
 
     /**
@@ -48,17 +48,15 @@ class AuthController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'username' => 'required|unique:normal_people,username',
-            'contact' => 'required|unique:normal_people,contact',
-            'email' => 'required|email|unique:normal_people,email',
-            'dob' => 'required|date',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return $this->validationError($validator);
         }
 
-        $user = User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->contact)]);
+        $user = User::create(['name' => $request->name, 'email' => $request->email, 'password' => Hash::make($request->password)]);
 
         return $this->sendResponse(null, 'created', 201);
     }
