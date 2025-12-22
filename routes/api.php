@@ -12,7 +12,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::post('login', 'login')->name('login');
         Route::post('register', 'register')->name('register');
 
-        Route::get('me', 'me')->name('me');
+        Route::get('me', 'me')->name('me')->middleware('auth:api');
     });
 
 });
