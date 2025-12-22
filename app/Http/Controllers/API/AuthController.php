@@ -60,4 +60,12 @@ class AuthController extends BaseController
 
         return $this->sendResponse(null, 'created', 201);
     }
+
+    public function me(){
+        if(Auth::check()){
+            return $this->sendResponse();
+        }else{
+            return $this->sendError('Unauthenticated', null, 401);
+        }
+    }
 }

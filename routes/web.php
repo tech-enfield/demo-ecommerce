@@ -15,22 +15,22 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Socialite;
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
-require __DIR__ . '/auth.php';
+// require __DIR__ . '/auth.php';
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
-Route::get('product/{product_variant:slug}', [App\Http\Controllers\HomeController::class, 'product'])->name('product');
-Route::get('products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
-Route::get('/{search}', [App\Http\Controllers\HomeController::class, 'lists'])->name('lists');
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
+// Route::get('product/{product_variant:slug}', [App\Http\Controllers\HomeController::class, 'product'])->name('product');
+// Route::get('products', [App\Http\Controllers\HomeController::class, 'products'])->name('products');
+// Route::get('/{search}', [App\Http\Controllers\HomeController::class, 'lists'])->name('lists');
 
-// Route::get('carts', [App\Http\Controllers\HomeController::class, 'carts'])->name('carts');
-Route::resource('carts', CartController::class);
-Route::post('getcarts', [CartController::class, 'getCart'])->name('get.cart');
+// // Route::get('carts', [App\Http\Controllers\HomeController::class, 'carts'])->name('carts');
+// Route::resource('carts', CartController::class);
+// Route::post('getcarts', [CartController::class, 'getCart'])->name('get.cart');
 
 //Admin Endpoints
 Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin/', 'as' => 'admin.'], function () {
