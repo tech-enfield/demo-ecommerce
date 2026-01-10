@@ -81,7 +81,7 @@
                         </div>
 
                         <!-- Image -->
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Image <span class="text-gray-500">(optional)</span>
                             </label>
@@ -167,7 +167,7 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800" />
                             <x-input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                     </div>
 
