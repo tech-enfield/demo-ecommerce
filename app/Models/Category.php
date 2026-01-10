@@ -36,20 +36,20 @@ class Category extends BaseModel
             }
 
             // Auto meta title
-            if (empty($category->meta_title)) {
-                $category->meta_title = $category->name . ' | Store 9 Nepal';
-            }
+            // if (empty($category->meta_title)) {
+            //     $category->meta_title = $category->name . '';
+            // }
 
-            // Auto meta description
-            if (empty($category->meta_description)) {
-                $category->meta_description =
-                    "Explore the best {$category->name} in Nepal. Shop genuine products at the best price with fast delivery.";
-            }
+            // // Auto meta description
+            // if (empty($category->meta_description)) {
+            //     $category->meta_description =
+            //         "Explore the best {$category->name} in Nepal. Shop genuine products at the best price with fast delivery.";
+            // }
 
-            // Auto keywords (optional)
-            if (empty($category->meta_keywords)) {
-                $category->meta_keywords = strtolower($category->name) . ', nepali ' . strtolower($category->name);
-            }
+            // // Auto keywords (optional)
+            // if (empty($category->meta_keywords)) {
+            //     $category->meta_keywords = strtolower($category->name) . ', nepali ' . strtolower($category->name);
+            // }
         });
     }
 }
