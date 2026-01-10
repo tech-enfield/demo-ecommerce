@@ -35,7 +35,7 @@
                         </div>
 
                         <!-- Slug -->
-                        <div>
+                        {{-- <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Slug <span class="text-gray-500">(optional)</span>
                             </label>
@@ -47,7 +47,7 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800" />
                             <x-input-error :messages="$errors->get('slug')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                         <!-- Icon -->
                         <div class="mb-4">
@@ -81,7 +81,7 @@
                         </div>
 
                         <!-- Image -->
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Image <span class="text-gray-500">(optional)</span>
                             </label>
@@ -109,10 +109,10 @@
                            justify-center text-xs hidden hover:bg-red-600">&times;</button>
                             </div>
                             <x-input-error :messages="$errors->get('image')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                         <!-- Description -->
-                        <div>
+                        {{-- <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Description <span class="text-gray-500">(optional)</span>
                             </label>
@@ -123,10 +123,10 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800">{{ old('description') }}</textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                         <!-- 🚀 Meta Title -->
-                        <div>
+                        {{-- <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Meta Title <span class="text-gray-500">(optional)</span>
                             </label>
@@ -138,10 +138,10 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800" />
                             <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                         <!-- 🚀 Meta Description -->
-                        <div>
+                        {{-- <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Meta Description <span class="text-gray-500">(optional)</span>
                             </label>
@@ -152,10 +152,10 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800">{{ old('meta_description') }}</textarea>
                             <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                         <!-- 🚀 Meta Keywords -->
-                        <div>
+                        {{-- <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Meta Keywords <span class="text-gray-500">(comma-separated)</span>
                             </label>
@@ -167,7 +167,7 @@
                        dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
                        dark:focus:border-brand-800" />
                             <x-input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
-                        </div>
+                        </div> --}}
 
                     </div>
 
