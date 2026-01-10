@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OrderItem extends BaseModel
+class CartItem extends BaseModel
 {
-     public function order(): BelongsTo
-
+    public function cart(): BelongsTo
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Cart::class);
     }
 
     public function variant(): BelongsTo

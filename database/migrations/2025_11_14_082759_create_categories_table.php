@@ -14,25 +14,25 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->nullable()->unique();
-            $table->text('description')->nullable();
-            $table->string('icon')->nullable();
-            $table->string('image')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->text('meta_description')->nullable();
-            $table->string('meta_keywords')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('slug')->unique();
+            $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
             $table->timestamps();
-            $table->index(['slug', 'meta_title', 'is_active']);
         });
 
-        Schema::create('category_relations', function (Blueprint $table) {
+         Schema::create('brands', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('parent_category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('name')->unique();
+            $table->string('logo')->nullable();
             $table->timestamps();
-            $table->unique(['category_id', 'parent_category_id']);
         });
+
+        // Schema::create('category_relations', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+        //     $table->foreignId('parent_category_id')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+        //     $table->timestamps();
+        //     $table->unique(['category_id', 'parent_category_id']);
+        // });
     }
 
     /**
@@ -40,7 +40,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_relations');
+        // Schema::dropIfExists('category_relations');
+        Schema::dropIfExists('brands');
         Schema::dropIfExists('categories');
     }
 };

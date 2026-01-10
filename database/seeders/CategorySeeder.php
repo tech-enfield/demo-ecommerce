@@ -14,23 +14,17 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $now = now();
-        Category::insert([
-            ['name' => 'Laptop', 'slug' => 'laptop', 'created_at' => $now, 'updated_at' => $now],
-            ['name' => 'Accessories', 'slug' => 'accessories', 'created_at' => $now, 'updated_at' => $now],
-            ['name' => 'Brand', 'slug' => 'brand', 'created_at' => $now, 'updated_at' => $now],
-            ['name' => 'Acer', 'slug' => 'acer', 'created_at' => $now, 'updated_at' => $now],
-            ['name' => 'Acer Predator', 'slug' => 'predator', 'created_at' => $now, 'updated_at' => $now],
-        ]);
-        CategoryRelation::insert([
-            ['parent_category_id' => 1, 'category_id' => 4, 'created_at' => $now, 'updated_at' => $now],
-            ['parent_category_id' => 2, 'category_id' => 4, 'created_at' => $now, 'updated_at' => $now],
-            ['parent_category_id' => 3, 'category_id' => 4, 'created_at' => $now, 'updated_at' => $now],
-            ['parent_category_id' => 1, 'category_id' => 5, 'created_at' => $now, 'updated_at' => $now],
-            ['parent_category_id' => 4, 'category_id' => 5, 'created_at' => $now, 'updated_at' => $now],
-        ]);
+        $categories = [
+            ['name' => 'Football', 'slug' => 'football'],
+            ['name' => 'Basketball', 'slug' => 'basketball'],
+            ['name' => 'Running', 'slug' => 'running'],
+            ['name' => 'Gym', 'slug' => 'gym'],
+            ['name' => 'Accessories', 'slug' => 'accessories'],
+        ];
 
-                $this->command->info('Category Seeder run successfully!');
-
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
+        $this->command->info('Category Seeder run successfully!');
     }
 }

@@ -14,7 +14,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
 
         Route::get('me', 'me')->name('me')->middleware('auth:sanctum');
     });
-    Route::group(['controller' => 'ApiController', 'middleware' => 'auth:sanctum'], function(){
+    Route::group(['controller' => 'ApiController'], function(){
         Route::get('home', 'home')->name('home');
     });
 });

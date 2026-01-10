@@ -13,70 +13,20 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-
-            // Who placed the order
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-
-            // Order identifiers
-            $table->string('order_number')->unique();
-
-            // Receiver info
-            $table->string('receiver_name');
-            $table->string('receiver_phone');
-            $table->string('receiver_email')->nullable();
-
-            // Shipping address (foreign keys)
-            $table->foreignId('shipping_province_id')->constrained('provinces');
-            $table->foreignId('shipping_district_id')->constrained('districts');
-            $table->foreignId('shipping_municipality_id')->nullable()->constrained('municipalities');
-            $table->string('shipping_area')->nullable();  // Optional: neighborhood/ward
-            $table->string('shipping_street')->nullable();
-            $table->string('shipping_notes')->nullable();
-
-            // Billing address (optional)
-            $table->foreignId('billing_province_id')->nullable()->constrained('provinces');
-            $table->foreignId('billing_district_id')->nullable()->constrained('districts');
-            $table->foreignId('billing_municipality_id')->nullable()->constrained('municipalities');
-            $table->string('billing_area')->nullable();
-            $table->string('billing_street')->nullable();
-
-            // Payment
-            $table->enum('payment_method', ['cod', 'esewa', 'khalti', 'bank']);
-            $table->enum('payment_status', ['unpaid', 'paid', 'partial', 'refunded'])->default('unpaid');
-            $table->string('transaction_id')->nullable();
-
-            // Totals
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('shipping_cost', 10, 2)->default(0);
-            $table->decimal('discount', 10, 2)->default(0);
-            $table->decimal('grand_total', 10, 2);
-
-            // Order status
-            $table->enum('status', [
-                'pending',
-                'processing',
-                'shipped',
-                'delivered',
-                'cancelled'
-            ])->default('pending');
-
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->string('status')->default('pending'); // pending, confirmed, shipped, delivered
+            $table->decimal('total', 10, 2);
+            $table->text('shipping_address')->nullable();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
 
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-
-            // Link to order
-            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
-
-            // Product variant
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_variant_id')->constrained()->onDelete('cascade');
-            $table->string('product_variant_title');
-            $table->string('sku')->nullable();
-            $table->decimal('unit_price', 10, 2);
-            $table->integer('quantity');
-            $table->decimal('total', 10, 2); // unit_price × quantity
-
+            $table->integer('quantity')->default(1);
+            $table->decimal('price', 10, 2);
             $table->timestamps();
         });
     }

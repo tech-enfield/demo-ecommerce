@@ -3,10 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\AttributeGroup;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use Faker\Factory as Faker;
 
 class ProductSeeder extends Seeder
@@ -16,10 +20,52 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = now();
-        Product::insert([
-            ['name' => 'Acer Predator Triton Neo 16', 'slug' => 'acer-predator-triton-neo-16', 'sku' => 'Acer-Predator-Triton-Neo-16', 'short_description' => 'The Acer Predator Triton Neo 16 cost NPR 264,999 for the Ultra 9 185H with RTX 4060 where as the powerful RTX 4070 comes at NPR 295,999.', 'description' => 'Keeping pace with the tech world’s rhythm, Acer unveiled the Predator Triton Neo 16 with Meteor Lake Intel Core Ultra chips a couple of months ago. In this article, let’s talk about the design, features, specifications, chipset, availability, and price in Nepal of the Acer Predator Triton Neo 16 (2024).', 'meta_title' => 'acer predator gaming laptop', 'meta_description' => "Buy the Acer Predator Triton Neo 16 series on Store 9Nepal.", "meta_keywords" => 'laptop, gaming laptop, acer, acer predator, predator, acer laptop', 'created_at' => $now, 'updated_at' => $now],
-        ]);
+        $faker = Faker::create();
+
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        $sizes = ['6','7','8','9','10','11','12'];
+        $colors = ['Black', 'White', 'Red', 'Blue', 'Green', 'Yellow'];
+
+        for ($i = 1; $i <= 50; $i++) {
+
+            $category = $categories->random();
+            $brand = $brands->random();
+
+            $product = Product::create([
+                'name' => ucfirst($faker->words(3, true)),
+                'category_id' => $category->id,
+                'brand_id' => $brand->id,
+                'description' => $faker->paragraph(),
+                'price' => $faker->numberBetween(50, 300),
+                'discount_price' => $faker->boolean(50) ? $faker->numberBetween(40, 250) : null,
+                'is_active' => true,
+            ]);
+
+            // Add 2-4 images
+            $numImages = $faker->numberBetween(2, 4);
+            for ($j = 1; $j <= $numImages; $j++) {
+                Image::create([
+                    'product_id' => $product->id,
+                    'path' => "product_{$i}_{$j}.jpg",
+                    'alt' => $product->name,
+                    'is_primary' => $j === 1,
+                ]);
+            }
+
+            // Add 1-6 variants
+            $variantCount = $faker->numberBetween(1, 6);
+            $variantSizes = $faker->randomElements($sizes, $variantCount);
+            foreach ($variantSizes as $size) {
+                ProductVariant::create([
+                    'product_id' => $product->id,
+                    'size' => $size,
+                    'color' => $faker->randomElement($colors),
+                    'stock' => $faker->numberBetween(5, 50),
+                ]);
+            }
+        }
 
         $this->command->info('Product Seeder file run successfully!');
     }

@@ -31,6 +31,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ProvinceDistrictMunicipalitySeeder::class,
+            CategorySeeder::class,
+            BrandSeeder::class,
+            ProductSeeder::class,
             // CategorySeeder::class,
             // ProductSeeder::class,
             // AttributeSeeder::class,

@@ -3,56 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Product extends BaseModel
 {
-    protected static function boot()
+    public function category(): BelongsTo
     {
-        parent::boot();
-
-        static::creating(function ($product) {
-
-            // Generate slug if empty
-            if (empty($product->slug)) {
-                $product->slug = Str::slug($product->name);
-
-                // Ensure unique slug
-                $originalSlug = $product->slug;
-                $i = 1;
-                while (Category::where('slug', $product->slug)->exists()) {
-                    $product->slug = $originalSlug . '-' . $i++;
-                }
-            }
-
-            // Auto meta title
-            if (empty($product->meta_title)) {
-                $product->meta_title = $product->name . ' | Store 9 Nepal';
-            }
-
-            // Auto meta description
-            if (empty($product->meta_description)) {
-                $product->meta_description =
-                    "Explore the best {$product->name} in Nepal. Shop genuine products at the best price with fast delivery.";
-            }
-
-            // Auto keywords (optional)
-            if (empty($product->meta_keywords)) {
-                $product->meta_keywords = strtolower($product->name) . ', nepali ' . strtolower($product->name);
-            }
-        });
+        return $this->belongsTo(Category::class);
     }
 
-    public function images()
+    public function brand(): BelongsTo
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->belongsTo(Brand::class);
     }
 
-    public function colors(){
-        return $this->hasMany(ProductColor::class);
+    public function variants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class);
     }
 
-    public function categories(){
-        return $this->hasMany(CategoryProduct::class);
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
     }
 }
