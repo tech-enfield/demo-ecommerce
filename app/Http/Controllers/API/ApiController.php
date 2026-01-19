@@ -4,9 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Banner;
 use App\Models\Brand;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductVariant;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class ApiController extends BaseController
 {
@@ -40,5 +45,19 @@ class ApiController extends BaseController
                 ];
             });
         return $this->sendResponse($data);
+    }
+
+    public function addToCart(Request $request)
+    {
+        $auth = Auth::user();
+
+        $cart = Cart::firstOrCreate(
+            ['user_id' => $auth->id]
+        );
+
+        CartItem::create([
+            'cart_id' => $cart->id,
+            
+        ]);
     }
 }
