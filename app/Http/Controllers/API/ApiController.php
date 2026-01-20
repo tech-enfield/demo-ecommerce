@@ -71,7 +71,7 @@ class ApiController extends BaseController
             'brand:id,name'
         ])
             ->where('is_active', true)
-            ->paginate(20);
+            ->paginate(4);
 
         // Transform paginated collection
         $products->getCollection()->transform(function ($product) {
