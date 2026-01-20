@@ -16,5 +16,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
     });
     Route::group(['controller' => 'ApiController'], function(){
         Route::get('home', 'home')->name('home');
+        Route::get('products', 'products')->name('products');
     });
 });

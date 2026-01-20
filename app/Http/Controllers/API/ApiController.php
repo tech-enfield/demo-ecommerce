@@ -57,7 +57,52 @@ class ApiController extends BaseController
 
         CartItem::create([
             'cart_id' => $cart->id,
-            
+
+        ]);
+    }
+
+    public function products(Request $request)
+    {
+        $products = Product::with([
+            'images' => function ($q) {
+                $q->where('is_primary', true);
+            },
+            'category:id,name',
+            'brand:id,name'
+        ])
+            ->where('is_active', true)
+            ->paginate(20);
+
+        // Transform paginated collection
+        $products->getCollection()->transform(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'discount_price' => $product->discount_price,
+                'category' => $product->category ? [
+                    'id' => $product->category->id,
+                    'name' => $product->category->name,
+                ] : null,
+                'brand' => $product->brand ? [
+                    'id' => $product->brand->id,
+                    'name' => $product->brand->name,
+                ] : null,
+                'image' => $product->images->first()
+                    ? asset('storage/' . $product->images->first()->path)
+                    : null,
+            ];
+        });
+
+        return $this->sendResponse([
+            'products' => $products->items(),
+            'pagination' => [
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+                'has_more' => $products->hasMorePages(),
+            ],
         ]);
     }
 }
