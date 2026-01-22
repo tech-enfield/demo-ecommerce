@@ -16,7 +16,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::post('logout', 'logout')->name('logout')->middleware('auth:sanctum');
     });
     Route::group(['controller' => 'ApiController'], function(){
-        Route::get('home', 'home')->name('home');
+        Route::get('home', 'home')->name('home')->middleware('auth:sanctum');
         Route::get('products', 'products')->name('products');
     });
 });
