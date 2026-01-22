@@ -13,6 +13,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::post('register', 'register')->name('register');
 
         Route::get('me', 'me')->name('me')->middleware('auth:sanctum');
+        Route::post('logout', 'logout')->name('logout')->middleware('auth:sanctum');
     });
     Route::group(['controller' => 'ApiController'], function(){
         Route::get('home', 'home')->name('home');
