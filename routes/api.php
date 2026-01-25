@@ -15,8 +15,8 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::get('me', 'me')->name('me')->middleware('auth:sanctum');
         Route::post('logout', 'logout')->name('logout')->middleware('auth:sanctum');
         Route::prefix('profile/')->as('profile.')->middleware('auth:sanctum')->group(function(){
-            Route::post('edit', 'edit')->name('edit');
-            Route::post('delete', 'delete')->name('delete');
+            Route::post('edit', 'editProfile')->name('edit');
+            Route::post('delete', 'deleteAccount')->name('delete');
             Route::post('change-password', 'changePassword')->name('change-password');
         });
     });
