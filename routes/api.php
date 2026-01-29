@@ -24,7 +24,9 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::get('home', 'home')->name('home');
         Route::get('products', 'products')->name('products');
     });
-    Route::apiResource('carts', 'CartController');
-    Route::apiResource('orders', 'OrderController');
-    // Route::controller('users', 'UserController');
+
+    Route::group(['middleware' => 'auth:sanctum'], function(){
+        Route::apiResource('carts', 'CartController');
+        Route::apiResource('orders', 'OrderController');
+    });
 });
