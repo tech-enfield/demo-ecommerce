@@ -57,7 +57,7 @@ class ApiController extends BaseController
 
         CartItem::create([
             'cart_id' => $cart->id,
-
+            
         ]);
     }
 
@@ -72,6 +72,7 @@ class ApiController extends BaseController
         ])
             ->where('is_active', true)
             ->paginate(10);
+
 
         // Transform paginated collection
         $products->getCollection()->transform(function ($product) {
