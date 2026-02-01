@@ -68,7 +68,8 @@ class ApiController extends BaseController
                 $q->where('is_primary', true);
             },
             'category:id,name',
-            'brand:id,name'
+            'brand:id,name',
+            'variants'
         ])
             ->where('is_active', true)
             ->paginate(10);
