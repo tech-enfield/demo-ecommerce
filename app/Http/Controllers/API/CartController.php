@@ -15,7 +15,7 @@ class CartController extends BaseController
      */
     public function index()
     {
-        $data = Cart::with('items')->where('user_id', Auth::id())->get();
+        $data = Cart::with('items.variant.product')->where('user_id', Auth::id())->get();
         return $this->sendResponse($data);
     }
 
