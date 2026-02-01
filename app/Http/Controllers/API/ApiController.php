@@ -57,7 +57,7 @@ class ApiController extends BaseController
 
         CartItem::create([
             'cart_id' => $cart->id,
-            
+
         ]);
     }
 
@@ -105,5 +105,11 @@ class ApiController extends BaseController
                 'has_more' => $products->hasMorePages(),
             ],
         ]);
+    }
+
+    public function singleProduct(Request $request, $id) {
+        $product = Product::find($id);
+
+        return $this->sendResponse($product);
     }
 }
