@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Banner;
 use App\Models\Brand;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductVariant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class ApiController extends BaseController
 {
@@ -42,6 +39,7 @@ class ApiController extends BaseController
                         'name' => $product->brand->name
                     ],
                     'image' => $product->images->first() ? asset('storage/' . $product->images->first()->path) : null,
+                    'variants' => $product->variants,
                 ];
             });
         return $this->sendResponse($data);
@@ -93,6 +91,7 @@ class ApiController extends BaseController
                 'image' => $product->images->first()
                     ? asset('storage/' . $product->images->first()->path)
                     : null,
+                'variants' => $product->variants,
             ];
         });
 
