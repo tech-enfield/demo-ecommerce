@@ -23,7 +23,7 @@ class ApiController extends BaseController
 
         $data['products'] = Product::with(['images' => function ($q) {
             $q->where('is_primary', true); // only primary image
-        }, 'category', 'brand'])
+        }, 'category', 'brand', 'variants'])
             ->where('is_active', true)
             ->take(20) // limit to 20 products
             ->get()
