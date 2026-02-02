@@ -24,6 +24,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::get('home', 'home')->name('home');
         Route::get('products', 'products')->name('products');
         Route::get('product/{id}', 'singleProduct')->name('single.product');
+        Route::post('remove-cart-item/{id}', 'removeCartItem')->name('remove.cart.item');
     });
 
     Route::group(['middleware' => 'auth:sanctum'], function(){

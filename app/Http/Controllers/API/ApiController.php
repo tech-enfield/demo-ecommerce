@@ -112,4 +112,9 @@ class ApiController extends BaseController
 
         return $this->sendResponse($product);
     }
+
+    public function removeCartItem(Request $request, $id) {
+        CartItem::delete($id);
+        return $this->sendResponse();
+    }
 }
