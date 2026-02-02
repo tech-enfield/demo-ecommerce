@@ -107,14 +107,23 @@ class ApiController extends BaseController
         ]);
     }
 
-    public function singleProduct(Request $request, $id) {
+    public function singleProduct(Request $request, $id)
+    {
         $product = Product::with('variants')->find($id);
 
         return $this->sendResponse($product);
     }
 
-    public function removeCartItem(Request $request, $id) {
-        CartItem::delete($id);
-        return $this->sendResponse();
+    public function removeCartItem(Request $request, $id)
+    {
+        $cartItem = CartItem::find($id);
+
+        if (!$cartItem) {
+            return $this->sendError('Cart item not found', [], 404);
+        }
+
+        $cartItem->delete();
+
+        return $this->sendResponse(null, 'Cart item removed successfully');
     }
 }
