@@ -38,7 +38,7 @@ class CartController extends BaseController
             ['user_id' => $auth->id]
         );
 
-        CartItem::create([
+        CartItem::updateOrCreate([
             'cart_id' => $cart->id,
             'product_variant_id' => $request->product_id,
         ]);
