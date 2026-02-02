@@ -108,7 +108,7 @@ class ApiController extends BaseController
     }
 
     public function singleProduct(Request $request, $id) {
-        $product = Product::find($id);
+        $product = Product::with('variants')->find($id);
 
         return $this->sendResponse($product);
     }
