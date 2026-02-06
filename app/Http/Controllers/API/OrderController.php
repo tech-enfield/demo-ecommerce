@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,10 +34,39 @@ class OrderController extends BaseController
      */
     public function store(Request $request)
     {
+        $auth = Auth::user();
+        $cart = Cart::where('user_id', $auth->id)->first();
+        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+
+        $total = 0;
+
         $order = Order::create([
-            'user_id' => Auth::id(),
-            ''
+            'user_id' => $auth->id,
+            'total' => 0,
+            'shipping_address' => $request->shipping_address,
+            'payment_method' => $request->payment_method,
         ]);
+
+        foreach($cartItems as $item) {
+            $rate = $item->variant->product->price;
+            $quantity = $item->quantity;
+
+            $amount = $rate * $quantity;
+            $total = $total + $amount;
+
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_variant_id' => $item->product_variant_id,
+                'quantity' => $item->quantity,
+                'rate' => $rate,
+            ]);
+        }
+
+        $order->update(['total' => $total]);
+
+        CartItem::where('cart_id', $cart->id)->delete();
+
+        return $this->sendResponse();
     }
 
     /**
