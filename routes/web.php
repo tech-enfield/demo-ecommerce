@@ -21,7 +21,7 @@ use Laravel\Socialite\Socialite;
 //     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
 
-// require __DIR__ . '/auth.php';
+require __DIR__ . '/auth.php';
 
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 // Route::get('product/{product_variant:slug}', [App\Http\Controllers\HomeController::class, 'product'])->name('product');

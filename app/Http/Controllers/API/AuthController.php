@@ -138,4 +138,6 @@ class AuthController extends BaseController
 
         return $this->sendResponse(null, 'Account deleted successfully');
     }
+
+    
 }
