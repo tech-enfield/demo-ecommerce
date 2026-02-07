@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class OrderController extends BaseController
 {
@@ -34,41 +35,45 @@ class OrderController extends BaseController
      */
     public function store(Request $request)
     {
-        $auth = Auth::user();
-        $cart = Cart::where('user_id', $auth->id)->first();
-        $cartItems = CartItem::where('cart_id', $cart->id)->get();
+        try {
+            $auth = Auth::user();
+            $cart = Cart::where('user_id', $auth->id)->first();
+            $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
-        $total = 0;
+            $total = 0;
 
-        $order = Order::create([
-            'user_id' => $auth->id,
-            'total' => 0,
-            'shipping_address' => $request->shipping_address,
-            'payment_method' => $request->payment_method,
-            'name' => $request->name,
-            'contact' => $request->contact,
-        ]);
-
-        foreach($cartItems as $item) {
-            $rate = $item->variant->product->price;
-            $quantity = $item->quantity;
-
-            $amount = $rate * $quantity;
-            $total = $total + $amount;
-
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_variant_id' => $item->product_variant_id,
-                'quantity' => $item->quantity,
-                'rate' => $rate,
+            $order = Order::create([
+                'user_id' => $auth->id,
+                'total' => 0,
+                'shipping_address' => $request->shipping_address,
+                'payment_method' => $request->payment_method,
+                'name' => $request->name,
+                'contact' => $request->contact,
             ]);
+
+            foreach ($cartItems as $item) {
+                $rate = $item->variant->product->price;
+                $quantity = $item->quantity;
+
+                $amount = $rate * $quantity;
+                $total = $total + $amount;
+
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_variant_id' => $item->product_variant_id,
+                    'quantity' => $item->quantity,
+                    'rate' => $rate,
+                ]);
+            }
+
+            $order->update(['total' => $total]);
+
+            CartItem::where('cart_id', $cart->id)->delete();
+
+            return $this->sendResponse($order);
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage(), null, 500);
         }
-
-        $order->update(['total' => $total]);
-
-        CartItem::where('cart_id', $cart->id)->delete();
-
-        return $this->sendResponse($order);
     }
 
     /**
