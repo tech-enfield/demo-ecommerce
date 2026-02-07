@@ -62,7 +62,7 @@ class OrderController extends BaseController
                     'order_id' => $order->id,
                     'product_variant_id' => $item->product_variant_id,
                     'quantity' => $item->quantity,
-                    'rate' => $rate,
+                    'price' => $rate,
                 ]);
             }
 
