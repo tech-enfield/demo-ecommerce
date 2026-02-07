@@ -45,6 +45,8 @@ class OrderController extends BaseController
             'total' => 0,
             'shipping_address' => $request->shipping_address,
             'payment_method' => $request->payment_method,
+            'name' => $request->name,
+            'contact' => $request->contact,
         ]);
 
         foreach($cartItems as $item) {
@@ -66,7 +68,7 @@ class OrderController extends BaseController
 
         CartItem::where('cart_id', $cart->id)->delete();
 
-        return $this->sendResponse();
+        return $this->sendResponse($order);
     }
 
     /**
