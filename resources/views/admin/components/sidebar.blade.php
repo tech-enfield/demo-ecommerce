@@ -140,12 +140,12 @@
                                         Assign Parent Category
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('admin.categories.import') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/categories/import') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Import Categories
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                         <!-- Dropdown Category Menu End -->
@@ -223,18 +223,18 @@
                                         Upload Product Variant Images
                                     </a>
                                 </li> --}}
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('admin.products.variants.attributes.index') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/products/variants/attributes/*') || request()->is('admin/products/variants/attributes') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Product Varaints Attributes
                                     </a>
-                                </li>
-                                <li>
+                                </li> --}}
+                                {{-- <li>
                                     <a href="{{ route('admin.products.import') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/products/import') || request()->is('admin/products/import') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Import Products
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                         <!-- Dropdown Product Menu End -->
@@ -242,7 +242,7 @@
                     <!-- Menu Item Product -->
 
                     <!-- Menu Item Attribute -->
-                    <li>
+                    {{-- <li>
                         <a href="#" @click.prevent="selected = (selected === 'Attribute' ? '' : 'Attribute')"
                             class="menu-item group"
                             :class="(selected === 'Attribute' || '{{ request()->is('admin/attributes*') }}') ?
@@ -310,11 +310,11 @@
                             </ul>
                         </div>
                         <!-- Dropdown Product Menu End -->
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Attribute -->
 
                     <!-- Menu Item Sales -->
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('admin.sales.index') }}"
                             class="menu-item group {{ request()->is('admin/sales*') ? 'menu-item-active' : 'menu-item-inactive' }}">
                             <svg class="menu-item-icon group {{ request()->is('admin/sales*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
@@ -345,11 +345,11 @@
                                 Sales
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Sales -->
 
                     <!-- Menu Item Banners -->
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('admin.banners.index') }}"
                             class="menu-item group {{ request()->is('admin/banners*') ? 'menu-item-active' : 'menu-item-inactive' }}">
                             <svg class="menu-item-icon group {{ request()->is('admin/banners*') ? 'menu-item-icon-active' : 'menu-item-icon-inactive' }}"
@@ -380,11 +380,11 @@
                                 Banners
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Banners -->
 
                     <!-- Menu Item Profile -->
-                    <li>
+                    {{-- <li>
                         <a href="profile.html" @click="selected = (selected === 'Profile' ? '':'Profile')"
                             class="menu-item group"
                             :class="(selected === 'Profile') && (page === 'profile') ? 'menu-item-active' :
@@ -402,11 +402,11 @@
                                 User Profile
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Profile -->
 
                     <!-- Menu Item Forms -->
-                    <li>
+                    {{-- <li>
                         <a href="#" @click.prevent="selected = (selected === 'Forms' ? '':'Forms')"
                             class="menu-item group"
                             :class="(selected === 'Forms') || (page === 'formElements' || page === 'formLayout' ||
@@ -452,11 +452,11 @@
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Forms -->
 
                     <!-- Menu Item Tables -->
-                    <li>
+                    {{-- <li>
                         <a href="#" @click.prevent="selected = (selected === 'Tables' ? '':'Tables')"
                             class="menu-item group"
                             :class="(selected === 'Tables') || (page === 'basicTables' || page === 'dataTables') ?
@@ -500,11 +500,11 @@
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Tables -->
 
                     <!-- Menu Item Pages -->
-                    <li>
+                    {{-- <li>
                         <a href="#" @click.prevent="selected = (selected === 'Pages' ? '':'Pages')"
                             class="menu-item group"
                             :class="(selected === 'Pages') || (page === 'fileManager' || page === 'pricingTables' ||
@@ -561,13 +561,13 @@
                             </ul>
                         </div>
                         <!-- Dropdown Menu End -->
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Pages -->
                 </ul>
             </div>
 
             <!-- Others Group -->
-            <div>
+            {{-- <div>
                 <h3 class="mb-4 text-xs uppercase leading-[20px] text-gray-400">
                     <span class="menu-group-title" :class="sidebarToggle ? 'lg:hidden' : ''">
                         others
@@ -785,7 +785,7 @@
                     </li>
                     <!-- Menu Item Authentication -->
                 </ul>
-            </div>
+            </div> --}}
         </nav>
         <!-- Sidebar Menu -->
 

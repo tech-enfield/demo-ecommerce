@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\RewardPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -69,6 +70,14 @@ class OrderController extends BaseController
             $order->update(['total' => $total]);
 
             CartItem::where('cart_id', $cart->id)->delete();
+
+            if(RewardPoint::where('user_id', $auth->id)->exists()) {
+                $rp = RewardPoint::where('user_id', $auth->id)->first();
+                $rp->point = $rp->point + $total*0.02;
+                $rp->save();
+            }else{
+                RewardPoint::create(['user_id' => $auth->id, 'point' => $total * 0.02]);
+            }
 
             return $this->sendResponse($order);
         } catch (Throwable $t) {
