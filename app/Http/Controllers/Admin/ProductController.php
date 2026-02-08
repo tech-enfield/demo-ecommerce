@@ -18,14 +18,14 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::with(['category', 'brand']);
 
         if ($request->filled('product_name')) {
-            $query->where('name', 'like', '%' . $request->query('product_name') . '%');
+            $query->where('name', 'like', '%' . $request->product_name . '%');
         }
 
         $data = $query->paginate(10);
-        // $data = Product::paginate(10);
+    
         return view('admin.products.index', [
             'data' => $data,
             'categories' => Category::orderBy('name')->get(),

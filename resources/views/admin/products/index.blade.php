@@ -143,7 +143,7 @@
                 <div class="w-full overflow-x-auto">
                     <table class="min-w-full">
                         <!-- table header start -->
-                        <thead>
+                        {{-- <thead>
                             <tr class="border-gray-100 border-y dark:border-gray-800">
                                 <th class="py-3">
                                     <div class="flex items-center">
@@ -174,10 +174,109 @@
                                     </div>
                                 </th>
                             </tr>
+                        </thead> --}}
+                        <thead>
+                            <tr class="border-gray-100 border-y dark:border-gray-800">
+                                <th class="py-3">Name</th>
+                                <th class="py-3">Category</th>
+                                <th class="py-3">Brand</th>
+                                <th class="py-3">Price</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-right">Action</th>
+                            </tr>
                         </thead>
-                        <!-- table header end -->
 
+                        <!-- table header end -->
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                            @forelse ($data as $item)
+                                <tr>
+                                    <!-- Name -->
+                                    <td class="py-3">
+                                        <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                            {{ $item->name }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Category -->
+                                    <td class="py-3">
+                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {{ $item->category?->name ?? '-' }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Brand -->
+                                    <td class="py-3">
+                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {{ $item->brand?->name ?? '-' }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Price -->
+                                    <td class="py-3">
+                                        @if ($item->discount_price)
+                                            <p class="text-theme-sm text-gray-800 dark:text-white/90">
+                                                <span class="line-through text-gray-400">
+                                                    Rs. {{ number_format($item->price, 2) }}
+                                                </span>
+                                                <span class="ml-1 font-semibold text-brand-500">
+                                                    Rs. {{ number_format($item->discount_price, 2) }}
+                                                </span>
+                                            </p>
+                                        @else
+                                            <p class="text-theme-sm text-gray-800 dark:text-white/90">
+                                                Rs. {{ number_format($item->price, 2) }}
+                                            </p>
+                                        @endif
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="py-3">
+                                        @if ($item->is_active)
+                                            <span
+                                                class="px-2 py-1 text-xs font-medium rounded-full
+                    bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span
+                                                class="px-2 py-1 text-xs font-medium rounded-full
+                    bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                                                Inactive
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Actions -->
+                                    <td class="py-3 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <a href="{{ route('admin.products.show', $item->id) }}" title="View">
+                                                👁️
+                                            </a>
+
+                                            <a href="{{ route('admin.products.edit', $item->id) }}" title="Edit">
+                                                ✏️
+                                            </a>
+
+                                            <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <button onclick="return confirm('Delete {{ $item->name }}?')"
+                                                    title="Delete">
+                                                    🗑️
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="py-6 text-center text-gray-500">
+                                        No products found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+
+                        {{-- <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                             @if (count($data) == 0)
                                 <tr>
                                     <td class="py-3 text-center" colspan="4">
@@ -228,8 +327,8 @@
                                                                 xml:space="preserve">
                                                                 <path
                                                                     d="M15.3,20.1c0,3.1,2.6,5.7,5.7,5.7s5.7-2.6,5.7-5.7s-2.6-5.7-5.7-5.7S15.3,17,15.3,20.1z M23.4,32.4
-                 C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
-                 C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
+                         C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
+                         C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
                                                             </svg>
                                                         </button>
                                                     </a>
@@ -263,7 +362,7 @@
                                     </tr>
                                 @endforeach
                             @endif
-                        </tbody>
+                        </tbody> --}}
                     </table>
                     <div class="mt-4">
                         {{ $data->links('vendor.pagination.tailwind') }}
