@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\ProductImport;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\CategoryProduct;
 use App\Models\Product;
@@ -25,7 +26,11 @@ class ProductController extends Controller
 
         $data = $query->paginate(10);
         // $data = Product::paginate(10);
-        return view('admin.products.index', ['data' => $data]);
+        return view('admin.products.index', [
+            'data' => $data,
+            'categories' => Category::orderBy('name')->get(),
+            'brands' => Brand::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -42,23 +47,30 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            // Basic info
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug'],
-            'sku' => ['nullable', 'string', 'max:100', 'unique:products,sku'],
-            'short_description' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-
-            // SEO
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string'],
-            'meta_keywords' => ['nullable', 'string'],
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0|lt:price',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        Product::create($validated);
+        Product::create([
+            'name' => $validated['name'],
+            'category_id' => $validated['category_id'],
+            'brand_id' => $validated['brand_id'] ?? null,
+            'description' => $validated['description'] ?? null,
+            'price' => $validated['price'],
+            'discount_price' => $validated['discount_price'] ?? null,
+            'is_active' => $request->boolean('is_active'),
+        ]);
 
-        return redirect(route('admin.products.index'));
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Product created successfully.');
     }
+
 
     /**
      * Display the specified resource.

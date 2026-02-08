@@ -22,129 +22,92 @@
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Name <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" id="name" name="name" placeholder="Enter the name"
-                                value="{{ old('name') }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
+                            <input type="text" name="name" value="{{ old('name') }}" required
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm">
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
-                        <!-- Slug -->
-                        {{-- <div>
+                        <!-- Category -->
+                        <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Slug <span class="text-gray-500">(optional)</span>
+                                Category <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" id="slug" name="slug" placeholder="Enter the custom slug"
-                                value="{{ old('slug') }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
-                        </div> --}}
+                            <select name="category_id" required
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+                        </div>
 
-                        <!-- SKU -->
-                        {{-- <div>
+                        <!-- Brand -->
+                        <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                SKU <span class="text-error-500">*</span>
+                                Brand
                             </label>
-                            <input type="text" id="sku" name="sku" placeholder="Enter the custom sku"
-                                value="{{ old('sku') }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('sku')" class="mt-2" />
-                            </div> --}}
-
-                        <!-- Short Description -->
-                        {{-- <div>
-                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Short Description <span class="text-gray-500">(optional)</span>
-                            </label>
-                            <textarea name="short_description" rows="1"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('short_description') }}</textarea>
-                            <x-input-error :messages="$errors->get('short_description')" class="mt-2" />
-                        </div> --}}
+                            <select name="brand_id"
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                                <option value="">No Brand</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}"
+                                        {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
+                                        {{ $brand->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <!-- Description -->
-                        {{-- <div>
+                        <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Description <span class="text-gray-500">(optional)</span>
+                                Description
                             </label>
                             <textarea name="description" rows="3"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('description') }}</textarea>
-                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div> --}}
+                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm">{{ old('description') }}</textarea>
+                        </div>
 
-                        <!-- 🚀 Meta Title -->
-                        {{-- <div>
+                        <!-- Price -->
+                        <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Title <span class="text-gray-500">(optional)</span>
+                                Price <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" name="meta_title" placeholder="Recommended: short & SEO-friendly title"
-                                value="{{ old('meta_title') }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
-                        </div> --}}
+                            <input type="number" step="0.01" name="price" value="{{ old('price') }}" required
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                            <x-input-error :messages="$errors->get('price')" class="mt-2" />
+                        </div>
 
-                        <!-- 🚀 Meta Description -->
-                        {{-- <div>
+                        <!-- Discount Price -->
+                        <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Description <span class="text-gray-500">(optional)</span>
+                                Discount Price
                             </label>
-                            <textarea name="meta_description" rows="3" placeholder="Short SEO description for search engines"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('meta_description') }}</textarea>
-                            <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
-                        </div> --}}
+                            <input type="number" step="0.01" name="discount_price" value="{{ old('discount_price') }}"
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                        </div>
 
-                        <!-- 🚀 Meta Keywords -->
-                        {{-- <div>
-                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Keywords <span class="text-gray-500">(comma-separated)</span>
+                        <!-- Status -->
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" name="is_active" value="1"
+                                {{ old('is_active', true) ? 'checked' : '' }}>
+                            <label class="text-sm text-gray-700 dark:text-gray-400">
+                                Active
                             </label>
-                            <input type="text" name="meta_keywords" placeholder="laptops, gaming laptop, budget laptop"
-                                value="{{ old('meta_keywords') }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
-                        </div> --}}
+                        </div>
 
                     </div>
 
-                    <!-- Button -->
                     <div class="pt-6">
-                        <button
-                            class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition
-                   rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
+                        <button class="w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500">
                             Create Product
                         </button>
                     </div>
                 </form>
+
             </div>
         </aside>
 
@@ -265,8 +228,8 @@
                                                                 xml:space="preserve">
                                                                 <path
                                                                     d="M15.3,20.1c0,3.1,2.6,5.7,5.7,5.7s5.7-2.6,5.7-5.7s-2.6-5.7-5.7-5.7S15.3,17,15.3,20.1z M23.4,32.4
-             C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
-             C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
+                 C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
+                 C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
                                                             </svg>
                                                         </button>
                                                     </a>
