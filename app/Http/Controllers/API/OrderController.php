@@ -92,9 +92,10 @@ class OrderController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(Order $order)
+    public function show($id)
     {
-        //
+        $order = Order::with('items.variant.product')->find($id);
+        return $this->sendResponse($order);
     }
 
     /**
