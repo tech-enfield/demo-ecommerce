@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\RewardPoint;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -38,7 +39,7 @@ class OrderController extends BaseController
     public function store(Request $request)
     {
         try {
-            $auth = Auth::user();
+            $auth = User::find(Auth::id());
             $cart = Cart::where('user_id', $auth->id)->first();
             $cartItems = CartItem::where('cart_id', $cart->id)->get();
 
@@ -73,13 +74,15 @@ class OrderController extends BaseController
 
             CartItem::where('cart_id', $cart->id)->delete();
 
-            if(RewardPoint::where('user_id', $auth->id)->exists()) {
-                $rp = RewardPoint::where('user_id', $auth->id)->first();
-                $rp->point = $rp->point + $total*0.02;
-                $rp->save();
-            }else{
-                RewardPoint::create(['user_id' => $auth->id, 'point' => $total * 0.02]);
-            }
+            // if(RewardPoint::where('user_id', $auth->id)->exists()) {
+            //     $rp = RewardPoint::where('user_id', $auth->id)->first();
+            //     $rp->point = $rp->point + $total*0.02;
+            //     $rp->save();
+            // }else{
+            //     RewardPoint::create(['user_id' => $auth->id, 'point' => $total * 0.02]);
+            // }
+
+            $auth->reward_point = $auth->reward_point + $total * config("");
 
             return $this->sendResponse($order);
         } catch (Throwable $t) {

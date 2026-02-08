@@ -22,6 +22,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.auth' => AdminAuthMiddleware::class,
             'role' => RoleMiddleware::class,
         ]);
+        $middleware->validateCsrfTokens(except: [
+            'forgot-password',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
