@@ -12,146 +12,103 @@
                     Edit Category
                 </h3>
 
-                <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
                     @csrf @method('PATCH')
 
                     <div class="space-y-5">
 
-                        <!-- Category Name -->
+                        <!-- Product Name -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Name <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" id="name" name="name" placeholder="Enter the name"
-                                value="{{ old('name') ?? $product->name }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
+                            <input type="text" name="name" value="{{ old('name', $product->name) }}" required
+                                class="h-11 w-full rounded-lg border px-4 text-sm">
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
-                        <!-- Slug -->
+                        <!-- Category -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Slug <span class="text-gray-500">(optional)</span>
+                                Category <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" id="slug" name="slug" placeholder="Enter the custom slug"
-                                value="{{ old('slug') ?? $product->slug }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('slug')" class="mt-2" />
+                            <select name="category_id" required class="h-11 w-full rounded-lg border px-4 text-sm">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
 
-                        <!-- SKU -->
+                        <!-- Brand -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                SKU <span class="text-error-500">*</span>
+                                Brand
                             </label>
-                            <input type="text" id="sku" name="sku" placeholder="Enter the custom sku"
-                                value="{{ old('sku') ?? $product->sku }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('sku')" class="mt-2" />
-                        </div>
-
-                        <!-- Short Description -->
-                        <div>
-                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Short Description <span class="text-gray-500">(optional)</span>
-                            </label>
-                            <textarea name="short_description" rows="3"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('short_description') ?? $product->short_description }}</textarea>
-                            <x-input-error :messages="$errors->get('short_description')" class="mt-2" />
+                            <select name="brand_id" class="h-11 w-full rounded-lg border px-4 text-sm">
+                                <option value="">No Brand</option>
+                                @foreach ($brands as $brand)
+                                    <option value="{{ $brand->id }}"
+                                        {{ old('brand_id', $product->brand_id) == $brand->id ? 'selected' : '' }}>
+                                        {{ $brand->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <!-- Description -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Description <span class="text-gray-500">(optional)</span>
+                                Description
                             </label>
-                            <textarea name="description" rows="3"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('description') ?? $product->description }}</textarea>
-                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            <textarea name="description" rows="3" class="w-full rounded-lg border px-4 py-2 text-sm">{{ old('description', $product->description) }}</textarea>
                         </div>
 
-                        <!-- 🚀 Meta Title -->
+                        <!-- Price -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Title <span class="text-gray-500">(optional)</span>
+                                Price <span class="text-error-500">*</span>
                             </label>
-                            <input type="text" name="meta_title" placeholder="Recommended: short & SEO-friendly title"
-                                value="{{ old('meta_title') ?? $product->meta_title }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('meta_title')" class="mt-2" />
+                            <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}"
+                                required class="h-11 w-full rounded-lg border px-4 text-sm">
                         </div>
 
-                        <!-- 🚀 Meta Description -->
+                        <!-- Discount Price -->
                         <div>
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Description <span class="text-gray-500">(optional)</span>
+                                Discount Price
                             </label>
-                            <textarea name="meta_description" rows="3" placeholder="Short SEO description for search engines"
-                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800">{{ old('meta_description') ?? $product->meta_description }}</textarea>
-                            <x-input-error :messages="$errors->get('meta_description')" class="mt-2" />
+                            <input type="number" step="0.01" name="discount_price"
+                                value="{{ old('discount_price', $product->discount_price) }}"
+                                class="h-11 w-full rounded-lg border px-4 text-sm">
                         </div>
 
-                        <!-- 🚀 Meta Keywords -->
-                        <div>
-                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                                Meta Keywords <span class="text-gray-500">(comma-separated)</span>
-                            </label>
-                            <input type="text" name="meta_keywords" placeholder="laptops, gaming laptop, budget laptop"
-                                value="{{ old('meta_keywords') ?? $product->meta_keywords }}"
-                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-                       text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-                       focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-                       dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-                       dark:focus:border-brand-800" />
-                            <x-input-error :messages="$errors->get('meta_keywords')" class="mt-2" />
+                        <!-- Status -->
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" name="is_active" value="1"
+                                {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
+                            <span class="text-sm">Active</span>
                         </div>
 
                     </div>
 
-                    <!-- Button -->
                     <div class="pt-6">
-                        <button
-                            class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition
-                   rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
-                            Edit Category
+                        <button class="w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500">
+                            Update Product
                         </button>
                     </div>
                 </form>
+
             </div>
         </aside>
 
         <aside class="lg:col-span-1">
             <div
                 class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
-               <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-3 sm:items-center">
+                <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-3 sm:items-center">
                     <!-- Left: Title -->
                     <div class="col-span-1">
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
@@ -180,7 +137,7 @@
                 <div class="w-full overflow-x-auto">
                     <table class="min-w-full">
                         <!-- table header start -->
-                        <thead>
+                        {{-- <thead>
                             <tr class="border-gray-100 border-y dark:border-gray-800">
                                 <th class="py-3">
                                     <div class="flex items-center">
@@ -211,10 +168,109 @@
                                     </div>
                                 </th>
                             </tr>
+                        </thead> --}}
+                        <thead>
+                            <tr class="border-gray-100 border-y dark:border-gray-800">
+                                <th class="py-3">Name</th>
+                                <th class="py-3">Category</th>
+                                <th class="py-3">Brand</th>
+                                <th class="py-3">Price</th>
+                                <th class="py-3">Status</th>
+                                <th class="py-3 text-right">Action</th>
+                            </tr>
                         </thead>
-                        <!-- table header end -->
 
+                        <!-- table header end -->
                         <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+                            @forelse ($data as $item)
+                                <tr>
+                                    <!-- Name -->
+                                    <td class="py-3">
+                                        <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                            {{ $item->name }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Category -->
+                                    <td class="py-3">
+                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {{ $item->category?->name ?? '-' }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Brand -->
+                                    <td class="py-3">
+                                        <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                            {{ $item->brand?->name ?? '-' }}
+                                        </p>
+                                    </td>
+
+                                    <!-- Price -->
+                                    <td class="py-3">
+                                        @if ($item->discount_price)
+                                            <p class="text-theme-sm text-gray-800 dark:text-white/90">
+                                                <span class="line-through text-gray-400">
+                                                    Rs. {{ number_format($item->price, 2) }}
+                                                </span>
+                                                <span class="ml-1 font-semibold text-brand-500">
+                                                    Rs. {{ number_format($item->discount_price, 2) }}
+                                                </span>
+                                            </p>
+                                        @else
+                                            <p class="text-theme-sm text-gray-800 dark:text-white/90">
+                                                Rs. {{ number_format($item->price, 2) }}
+                                            </p>
+                                        @endif
+                                    </td>
+
+                                    <!-- Status -->
+                                    <td class="py-3">
+                                        @if ($item->is_active)
+                                            <span
+                                                class="px-2 py-1 text-xs font-medium rounded-full
+                    bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span
+                                                class="px-2 py-1 text-xs font-medium rounded-full
+                    bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400">
+                                                Inactive
+                                            </span>
+                                        @endif
+                                    </td>
+
+                                    <!-- Actions -->
+                                    <td class="py-3 text-right">
+                                        <div class="flex justify-end gap-2">
+                                            <a href="{{ route('admin.products.show', $item->id) }}" title="View">
+                                                👁️
+                                            </a>
+
+                                            <a href="{{ route('admin.products.edit', $item->id) }}" title="Edit">
+                                                ✏️
+                                            </a>
+
+                                            <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST">
+                                                @csrf @method('DELETE')
+                                                <button onclick="return confirm('Delete {{ $item->name }}?')"
+                                                    title="Delete">
+                                                    🗑️
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="py-6 text-center text-gray-500">
+                                        No products found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+
+                        {{-- <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                             @if (count($data) == 0)
                                 <tr>
                                     <td class="py-3 text-center" colspan="4">
@@ -265,8 +321,8 @@
                                                                 xml:space="preserve">
                                                                 <path
                                                                     d="M15.3,20.1c0,3.1,2.6,5.7,5.7,5.7s5.7-2.6,5.7-5.7s-2.6-5.7-5.7-5.7S15.3,17,15.3,20.1z M23.4,32.4
-             C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
-             C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
+                         C30.1,30.9,40.5,22,40.5,22s-7.7-12-18-13.3c-0.6-0.1-2.6-0.1-3-0.1c-10,1-18,13.7-18,13.7s8.7,8.6,17,9.9
+                         C19.4,32.6,22.4,32.6,23.4,32.4z M11.1,20.7c0-5.2,4.4-9.4,9.9-9.4s9.9,4.2,9.9,9.4S26.5,30,21,30S11.1,25.8,11.1,20.7z" />
                                                             </svg>
                                                         </button>
                                                     </a>
@@ -284,7 +340,7 @@
                                                         method="POST">
                                                         @csrf @method('DELETE')
                                                         <button title="delete {{ $item->name }}"
-                                                            onclick="return confirm('Are you sure you want to delete {{ $item->name }} category?')">
+                                                            onclick="return confirm('Are you sure you want to delete {{ $item->name }} product?')">
                                                             <svg class="fill-gray-900 dark:fill-gray-100" width="16px"
                                                                 height="16px" viewBox="-3 -2 24 24"
                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +356,7 @@
                                     </tr>
                                 @endforeach
                             @endif
-                        </tbody>
+                        </tbody> --}}
                     </table>
                     <div class="mt-4">
                         {{ $data->links('vendor.pagination.tailwind') }}

@@ -25,7 +25,7 @@ class ProductController extends Controller
         }
 
         $data = $query->paginate(10);
-    
+
         return view('admin.products.index', [
             'data' => $data,
             'categories' => Category::orderBy('name')->get(),
@@ -96,23 +96,30 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            // Basic info
-            'name' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:products,slug,' . $product->id . ',id'],
-            'sku' => ['nullable', 'string', 'max:100', 'unique:products,sku,' . $product->id . ',id'],
-            'short_description' => ['nullable', 'string'],
-            'description' => ['nullable', 'string'],
-
-            // SEO
-            'meta_title' => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string'],
-            'meta_keywords' => ['nullable', 'string'],
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'brand_id' => 'nullable|exists:brands,id',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0|lt:price',
+            'is_active' => 'nullable|boolean',
         ]);
 
-        $product->update($validated);
+        $product->update([
+            'name' => $validated['name'],
+            'category_id' => $validated['category_id'],
+            'brand_id' => $validated['brand_id'] ?? null,
+            'description' => $validated['description'] ?? null,
+            'price' => $validated['price'],
+            'discount_price' => $validated['discount_price'] ?? null,
+            'is_active' => $request->boolean('is_active'),
+        ]);
 
-        return redirect(route('admin.products.index'));
+        return redirect()
+            ->route('admin.products.index')
+            ->with('success', 'Product updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
