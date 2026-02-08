@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->string('status')->default('pending'); // pending, confirmed, shipped, delivered
             $table->decimal('total', 10, 2);
+            $table->decimal('discount')->default(0);
+            $table->decimal('grand_total');
             $table->string('name');
             $table->string('contact');
             $table->text('shipping_address')->nullable();

@@ -53,6 +53,8 @@ class OrderController extends BaseController
                 'payment_method' => $request->payment_method,
                 'name' => $request->name,
                 'contact' => $request->contact,
+                'discount' => $request->discount,
+                'grand_total' => 0,
             ]);
 
             foreach ($cartItems as $item) {
@@ -70,17 +72,9 @@ class OrderController extends BaseController
                 ]);
             }
 
-            $order->update(['total' => $total]);
+            $order->update(['total' => $total,'grand_total' => $total - $request->discount]);
 
             CartItem::where('cart_id', $cart->id)->delete();
-
-            // if(RewardPoint::where('user_id', $auth->id)->exists()) {
-            //     $rp = RewardPoint::where('user_id', $auth->id)->first();
-            //     $rp->point = $rp->point + $total*0.02;
-            //     $rp->save();
-            // }else{
-            //     RewardPoint::create(['user_id' => $auth->id, 'point' => $total * 0.02]);
-            // }
 
             $reward = $total * config('app.reward_point');
 
