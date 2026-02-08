@@ -82,9 +82,10 @@ class OrderController extends BaseController
             //     RewardPoint::create(['user_id' => $auth->id, 'point' => $total * 0.02]);
             // }
 
-            $auth->reward_point = $auth->reward_point + $total * config("");
+            $auth->reward_point = $auth->reward_point + $total * config("app.reward_point");
+            $auth->save();
 
-            return $this->sendResponse($order);
+            return $this->sendResponse($order, $auth->reward_point);
         } catch (Throwable $t) {
             return $this->sendError($t->getMessage(), null, 500);
         }
