@@ -13,8 +13,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        Order::paginate(10);
-        return view('admin.orders.index');
+        $data = Order::paginate(10);
+        return view('admin.orders.index', ['data' => $data]);
     }
 
     /**
