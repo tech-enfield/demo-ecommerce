@@ -134,12 +134,12 @@
                                         All Category
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('admin.categories.assign.parent') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/category-assign-parent') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Assign Parent Category
                                     </a>
-                                </li>
+                                </li> --}}
                                 {{-- <li>
                                     <a href="{{ route('admin.categories.import') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/categories/import') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
@@ -199,7 +199,7 @@
                                         All Products
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ route('admin.products.assign.category') }}"
                                         class="menu-dropdown-item group {{ request()->is('admin/products/assign-to-category') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Assign Product To Category
@@ -210,7 +210,7 @@
                                         class="menu-dropdown-item group {{ request()->is('admin/products/images') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
                                         Upload Product Images
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li>
                                     <a href="{{ route('admin.products.variants.index') }}"
                                         class="menu-dropdown-item group {{ (request()->is('admin/products/variants/*') && !(request()->is('admin/products/variants/attributes') || request()->is('admin/products/variants/attributes/*') || request()->is('admin/products/variants/images') || request()->is('admin/products/variants/images/*'))) || request()->is('admin/products/variants') ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive' }}">
