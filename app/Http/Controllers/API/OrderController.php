@@ -83,7 +83,9 @@ class OrderController extends BaseController
             User::where('id', $auth->id)
                 ->decrement('reward_point', $request->discount);
 
-            return $this->sendResponse($order, User::where('id', $auth->id)->pluck('reward_point'));
+                $user = User::where('id', $auth->id)->first();
+
+            return $this->sendResponse($order, $user->reward_point);
         } catch (Throwable $t) {
             return $this->sendError($t->getMessage(), null, 500);
         }
