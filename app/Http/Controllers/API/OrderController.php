@@ -72,7 +72,7 @@ class OrderController extends BaseController
                 ]);
             }
 
-            $order->update(['total' => $total,'grand_total' => $total - $request->discount]);
+            $order->update(['total' => $total, 'grand_total' => $total - $request->discount]);
 
             CartItem::where('cart_id', $cart->id)->delete();
 
@@ -80,6 +80,8 @@ class OrderController extends BaseController
 
             User::where('id', $auth->id)
                 ->increment('reward_point', $reward);
+            User::where('id', $auth->id)
+                ->decrement('reward_point', $request->discount);
 
             return $this->sendResponse($order, $auth->reward_point);
         } catch (Throwable $t) {
