@@ -28,7 +28,7 @@ class ProductVariantController extends Controller
         $data = $query->paginate(10);
         $products = Product::select('id', 'name')->get();
 
-        return view('admin.products.variants.index', compact('data', 'products'));
+        return view('admin.products.varaints.index', compact('data', 'products'));
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductVariantController extends Controller
     public function create()
     {
         $products = Product::select('id', 'name')->get();
-        return view('admin.products.variants.create', compact('products'));
+        return view('admin.products.varaints.create', compact('products'));
     }
 
     /**
@@ -57,7 +57,7 @@ class ProductVariantController extends Controller
      */
     public function show(ProductVariant $variant)
     {
-        return view('admin.products.variants.show', compact('variant'));
+        return view('admin.products.varaints.show', compact('variant'));
     }
 
     /**
@@ -66,7 +66,7 @@ class ProductVariantController extends Controller
     public function edit(ProductVariant $variant)
     {
         $products = Product::select('id', 'name')->get();
-        return view('admin.products.variants.edit', compact('variant', 'products'));
+        return view('admin.products.varaints.edit', compact('variant', 'products'));
     }
 
     /**
@@ -101,7 +101,7 @@ class ProductVariantController extends Controller
             ->where('product_variant_id', $variant->id)
             ->paginate(10);
 
-        return view('admin.products.variants.assign-color-family', [
+        return view('admin.products.varaints.assign-color-family', [
             'variant' => $variant,
             'colors' => $colors,
             'assignedColors' => $assignedColors
