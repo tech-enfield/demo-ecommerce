@@ -136,5 +136,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin/',
 
         Route::post('banners/import', 'BannerController@importStore')->name('banners.import.store');
         Route::resource('banners', 'BannerController');
+        Route::resource('orders', 'OrderController');
+        Route::put('/orders/{order}/status', 'OrderController@updateStatus');
+
     });
 });
