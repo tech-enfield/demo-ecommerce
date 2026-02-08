@@ -243,7 +243,7 @@
 
 
                     <li>
-                        <a href="{{ route('admin.orders') }}"
+                        <a href="{{ route('admin.orders.index') }}"
                             class="menu-item group
         {{ request()->is('admin/orders/*') ? 'menu-item-active' : 'menu-item-inactive' }}">
                             <svg class="menu-item-icon group
