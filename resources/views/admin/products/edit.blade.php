@@ -1,7 +1,5 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Category | Store 9Nepal Admin Dashboard')
-
 @section('admin-content')
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <!-- LEFT SIDE FORM -->

@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Product | Store 9Nepal Admin Dashboard')
+@section('title', 'Product')
 
 @section('admin-content')
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
