@@ -10,6 +10,7 @@ use App\Models\OrderItem;
 use App\Models\RewardPoint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Throwable;
 
 class OrderController extends BaseController
@@ -44,6 +45,7 @@ class OrderController extends BaseController
             $total = 0;
 
             $order = Order::create([
+                'order_number' => Str::orderedUuid(),
                 'user_id' => $auth->id,
                 'total' => 0,
                 'shipping_address' => $request->shipping_address,
