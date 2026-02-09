@@ -112,7 +112,7 @@ class ApiController extends BaseController
     {
         try {
 
-            $product = Product::with(['variants', 'comments', 'rating'])->find($id);
+            $product = Product::with(['variants', 'comments.user', 'rating'])->find($id);
 
             return $this->sendResponse($product);
         } catch (Throwable $t) {
