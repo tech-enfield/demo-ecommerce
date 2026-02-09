@@ -32,7 +32,17 @@
                 </div>
 
                 <div class="space-y-6">
-
+                    @if ($product->image)
+                        <div class="text-center">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-2">
+                                Image
+                            </label>
+                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                                <img src="{{ asset('storage/' . $product->image) }}" class="h-16 mx-auto"
+                                    alt="{{ $product->name }} icon" />
+                            </div>
+                        </div>
+                    @endif
                     <!-- Basic Information -->
                     <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
                         <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
@@ -113,7 +123,7 @@
         </aside>
 
         <!-- RIGHT SIDE - Categories Table -->
-         <aside class="lg:col-span-1">
+        <aside class="lg:col-span-1">
             <div
                 class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
                 <div class="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-3 sm:items-center">
