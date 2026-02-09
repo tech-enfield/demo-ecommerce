@@ -7,7 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Throwable;
@@ -159,7 +161,22 @@ class AuthController extends BaseController
 
             // Send password reset link
             $status = Password::sendResetLink(
-                $request->only('email')
+                $request->only('email'),
+                function ($user, string $token) {
+                    $resetUrl = URL::temporarySignedRoute(
+                        'password.reset',
+                        now()->addMinutes(config('auth.passwords.users.expire')),
+                        [
+                            'token' => $token,
+                            'email' => $user->email,
+                        ]
+                    );
+
+                    Log::info('Password reset link generated', [
+                        'email' => $user->email,
+                        'reset_url' => $resetUrl,
+                    ]);
+                }
             );
 
             if ($status === Password::RESET_LINK_SENT) {

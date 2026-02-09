@@ -11,8 +11,9 @@ class HomeController extends Controller
 {
     public function dashboard()
     {
-        $data['number_of_customers'] = User::role('customer')->count();
+        return redirect(route('admin.orders.index'));
+        // $data['number_of_customers'] = User::role('customer')->count();
         // $data['number_of_sales'] = Sale::where();
-        return view('admin.dashboard', $data);
+        // return view('admin.dashboard', $data);
     }
 }

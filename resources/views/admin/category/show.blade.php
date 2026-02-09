@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', $category->name . ' | Store 9Nepal Admin Dashboard')
+@section('title', $category->name)
 
 @section('admin-content')
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -51,77 +51,6 @@
                             </div>
                         </div>
                     @endif
-                </div>
-
-                <!-- Details Grid -->
-                <div class="space-y-6">
-                    <!-- Basic Information -->
-                    <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
-                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Basic Information
-                        </h4>
-                        <div class="grid grid-cols-1 gap-3">
-                            <div>
-                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Slug</span>
-                                <p
-                                    class="text-gray-800 dark:text-white/90 font-mono text-sm bg-white dark:bg-gray-800
-                                          px-3 py-2 rounded border border-gray-200 dark:border-gray-700">
-                                    {{ $category->slug }}
-                                </p>
-                            </div>
-                            <div>
-                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</span>
-                                <p
-                                    class="text-gray-800 dark:text-white/90 bg-white dark:bg-gray-800
-                                          px-3 py-2 rounded border border-gray-200 dark:border-gray-700 min-h-[60px]">
-                                    {{ $category->description ?? 'No description provided' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SEO Information -->
-                    <div class="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
-                        <h4 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-3 flex items-center">
-                            <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                            SEO Information
-                        </h4>
-                        <div class="space-y-3">
-                            <div>
-                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Meta Title</span>
-                                <p
-                                    class="text-gray-800 dark:text-white/90 bg-white dark:bg-gray-800
-                                          px-3 py-2 rounded border border-gray-200 dark:border-gray-700">
-                                    {{ $category->meta_title ?? 'No meta title set' }}
-                                </p>
-                            </div>
-                            <div>
-                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Meta Description</span>
-                                <p
-                                    class="text-gray-800 dark:text-white/90 bg-white dark:bg-gray-800
-                                          px-3 py-2 rounded border border-gray-200 dark:border-gray-700">
-                                    {{ $category->meta_description ?? 'No meta description set' }}
-                                </p>
-                            </div>
-                            <div>
-                                <span class="text-sm font-medium text-gray-500 dark:text-gray-400">Meta Keywords</span>
-                                <p
-                                    class="text-gray-800 dark:text-white/90 bg-white dark:bg-gray-800
-                                          px-3 py-2 rounded border border-gray-200 dark:border-gray-700">
-                                    {{ $category->meta_keywords ?? 'No keywords set' }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </aside>

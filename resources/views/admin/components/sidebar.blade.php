@@ -36,7 +36,7 @@
 
                 <ul class="flex flex-col gap-4 mb-6">
                     <!-- Menu Item Dashboard -->
-                    <li>
+                    {{-- <li>
                         <a href="{{ route('admin.dashboard') }}"
                             class="menu-item group
         {{ request()->is('admin/dashboard') ? 'menu-item-active' : 'menu-item-inactive' }}">
@@ -53,7 +53,7 @@
                                 Dashboard
                             </span>
                         </a>
-                    </li>
+                    </li> --}}
                     <!-- Menu Item Dashboard -->
 
                     <!-- Menu Item Users -->

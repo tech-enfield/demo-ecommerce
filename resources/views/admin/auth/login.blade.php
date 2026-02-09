@@ -159,7 +159,7 @@
                             <img src="{{ asset('admin/images/logo/white-logo.png') }}" alt="Logo" />
                         </a>
                         <p class="text-center text-gray-400 dark:text-white/60">
-                            Admin Dashboard of <strong>Store 9 Nepal</strong> developed by <a href="techenfield.com" class="text-blue-600"><strong>Tech Enfield</strong></a>
+                            Admin Dashboard of <strong>Sportify</strong>
                         </p>
                     </div>
                 </div>

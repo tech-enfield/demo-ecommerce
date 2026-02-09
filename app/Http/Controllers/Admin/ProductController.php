@@ -87,7 +87,9 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $data = Product::paginate(10);
-        return view('admin.products.edit', ['data' => $data, 'product' => $product]);
+        return view('admin.products.edit', ['data' => $data, 'product' => $product,
+            'categories' => Category::orderBy('name')->get(),
+            'brands' => Brand::orderBy('name')->get()]);
     }
 
     /**

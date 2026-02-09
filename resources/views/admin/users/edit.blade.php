@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Users | Store 9Nepal Admin Dashboard')
+@section('title', 'Users')
 
 @section('admin-content')
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -198,37 +198,6 @@
                                         <td class="py-3">
                                             <div class="flex items-center">
                                                 <div class="text-gray-500 text-theme-sm dark:text-gray-400 flex gap-2">
-                                                    <a href="{{ route('admin.assign.role', $item->id) }}">
-                                                        <button title="assign role to {{ $item->name }}">
-                                                            <svg width="16px" height="16px" viewBox="0 0 24 24"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path class="stroke-gray-900 dark:stroke-gray-100"
-                                                                    d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v15.2A2.4 2.4 0 0 0 5.4 23h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3Z"
-                                                                    fill-opacity=".16" stroke-width="1.5"
-                                                                    stroke-miterlimit="10" />
-                                                                <path d="M7 14h10M7 11h10M7 17h6"
-                                                                    class="stroke-gray-900 dark:stroke-gray-100"
-                                                                    stroke-width="1.5" stroke-miterlimit="10"
-                                                                    stroke-linecap="round" />
-                                                                <path
-                                                                    d="M15.2 6a.8.8 0 0 0 .8-.8V3H8v2.2a.8.8 0 0 0 .8.8h6.4Z"
-                                                                    class="fill-gray-100 dark:fill-gray-900" />
-                                                                <path d="M16 3v2.2a.8.8 0 0 1-.8.8H8.8a.8.8 0 0 1-.8-.8V3"
-                                                                    stroke-width="1.5"
-                                                                    class="stroke-gray-900 dark:stroke-gray-100"
-                                                                    stroke-miterlimit="10" stroke-linecap="round" />
-                                                                <path
-                                                                    d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v15.2A2.4 2.4 0 0 0 5.4 23h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3Z"
-                                                                    stroke-width="1.5"
-                                                                    class="stroke-gray-900 dark:stroke-gray-100"
-                                                                    stroke-miterlimit="10" />
-                                                                <path d="M14 3a2 2 0 1 0-4 0" stroke-width="1.5"
-                                                                    stroke-miterlimit="10"
-                                                                    class="stroke-gray-900 dark:stroke-gray-100"
-                                                                    stroke-linecap="round" />
-                                                            </svg>
-                                                        </button>
-                                                    </a>
                                                     <a href="{{ route('admin.users.edit', $item->id) }}">
                                                         <button title="edit {{ $item->name }}">
                                                             <svg class="fill-gray-900 dark:fill-gray-100" width="16"

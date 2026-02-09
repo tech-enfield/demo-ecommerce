@@ -7,11 +7,12 @@
             <div class="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-white/5">
 
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90 mb-4">
-                    Edit Category
+                    Edit Product
                 </h3>
 
                 <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
-                    @csrf @method('PATCH')
+                    @csrf
+                    @method('PATCH')
 
                     <div class="space-y-5">
 
@@ -21,7 +22,7 @@
                                 Name <span class="text-error-500">*</span>
                             </label>
                             <input type="text" name="name" value="{{ old('name', $product->name) }}" required
-                                class="h-11 w-full rounded-lg border px-4 text-sm">
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm">
                             <x-input-error :messages="$errors->get('name')" class="mt-2" />
                         </div>
 
@@ -30,7 +31,9 @@
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Category <span class="text-error-500">*</span>
                             </label>
-                            <select name="category_id" required class="h-11 w-full rounded-lg border px-4 text-sm">
+                            <select name="category_id" required
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                                <option value="">Select Category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}"
                                         {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
@@ -46,7 +49,8 @@
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Brand
                             </label>
-                            <select name="brand_id" class="h-11 w-full rounded-lg border px-4 text-sm">
+                            <select name="brand_id"
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
                                 <option value="">No Brand</option>
                                 @foreach ($brands as $brand)
                                     <option value="{{ $brand->id }}"
@@ -62,7 +66,8 @@
                             <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                                 Description
                             </label>
-                            <textarea name="description" rows="3" class="w-full rounded-lg border px-4 py-2 text-sm">{{ old('description', $product->description) }}</textarea>
+                            <textarea name="description" rows="3"
+                                class="dark:bg-dark-900 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm">{{ old('description', $product->description) }}</textarea>
                         </div>
 
                         <!-- Price -->
@@ -71,7 +76,9 @@
                                 Price <span class="text-error-500">*</span>
                             </label>
                             <input type="number" step="0.01" name="price" value="{{ old('price', $product->price) }}"
-                                required class="h-11 w-full rounded-lg border px-4 text-sm">
+                                required
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
+                            <x-input-error :messages="$errors->get('price')" class="mt-2" />
                         </div>
 
                         <!-- Discount Price -->
@@ -81,14 +88,16 @@
                             </label>
                             <input type="number" step="0.01" name="discount_price"
                                 value="{{ old('discount_price', $product->discount_price) }}"
-                                class="h-11 w-full rounded-lg border px-4 text-sm">
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
                         </div>
 
                         <!-- Status -->
                         <div class="flex items-center gap-2">
                             <input type="checkbox" name="is_active" value="1"
                                 {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
-                            <span class="text-sm">Active</span>
+                            <label class="text-sm text-gray-700 dark:text-gray-400">
+                                Active
+                            </label>
                         </div>
 
                     </div>
@@ -101,6 +110,7 @@
                 </form>
 
             </div>
+
         </aside>
 
         <aside class="lg:col-span-1">
