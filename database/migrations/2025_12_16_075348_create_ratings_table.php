@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_variant_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->decimal('rating');
             $table->integer('count');
             $table->timestamps();
@@ -21,7 +21,7 @@ return new class extends Migration
 
         Schema::create('rated_by', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_variant_id')->constrained();
+            $table->foreignId('product_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->decimal('rating');
             $table->timestamps();

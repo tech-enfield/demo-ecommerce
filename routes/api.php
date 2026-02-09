@@ -30,5 +30,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
     Route::group(['middleware' => 'auth:sanctum'], function(){
         Route::apiResource('carts', 'CartController');
         Route::apiResource('orders', 'OrderController');
+        Route::apiResource('comments', 'CommentController');
     });
 });
