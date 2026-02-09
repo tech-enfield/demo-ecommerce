@@ -67,7 +67,7 @@ class ApiController extends BaseController
             },
             'category:id,name',
             'brand:id,name',
-            'variants'
+            'variants',
         ])
             ->where('is_active', true)
             ->paginate(10);
@@ -109,7 +109,7 @@ class ApiController extends BaseController
 
     public function singleProduct(Request $request, $id)
     {
-        $product = Product::with('variants')->find($id);
+        $product = Product::with(['variants', 'comments', 'rating'])->find($id);
 
         return $this->sendResponse($product);
     }
