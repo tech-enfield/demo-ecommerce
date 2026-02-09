@@ -31,5 +31,6 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
         Route::apiResource('carts', 'CartController');
         Route::apiResource('orders', 'OrderController');
         Route::apiResource('comments', 'CommentController');
+        Route::apiResource('ratings', 'RatingController');
     });
 });

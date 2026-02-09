@@ -45,7 +45,7 @@ class RatingController extends Controller
         $userId = Auth::id();
 
         // Check if user already rated
-        $userRating = RatedBy::where('product_id', $request->product_id)
+        $userRating = RatedBy::where('product_id', $request->productId)
             ->where('user_id', $userId)
             ->first();
 
@@ -55,18 +55,18 @@ class RatingController extends Controller
             ]);
         } else {
             RatedBy::create([
-                'product_id' => $request->product_id,
+                'product_id' => $request->productId,
                 'user_id' => $userId,
                 'rating' => $request->rating,
             ]);
         }
 
         // Recalculate rating
-        $avgRating = RatedBy::where('product_id', $request->product_id)->avg('rating');
-        $count = RatedBy::where('product_id', $request->product_id)->count();
+        $avgRating = RatedBy::where('product_id', $request->productId)->avg('rating');
+        $count = RatedBy::where('product_id', $request->productId)->count();
 
         Rating::updateOrCreate(
-            ['product_id' => $request->product_id],
+            ['product_id' => $request->productId],
             [
                 'rating' => round($avgRating, 1),
                 'count' => $count,
