@@ -79,8 +79,8 @@ class RatingController extends BaseController
                 // 'success' => true,
                 // 'message' => 'Rating submitted successfully',
                 // 'data' => [
-                    'rating' => round($avgRating, 1),
-                    'count' => $count,
+                    'rating' => (float) round($avgRating, 1),
+                    'count' => (int) $count,
                 // ],
             ]);
         } catch (Throwable $t) {
