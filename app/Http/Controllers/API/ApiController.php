@@ -31,6 +31,7 @@ class ApiController extends BaseController
                     'name' => $product->name,
                     'price' => $product->price,
                     'discount_price' => $product->discount_price,
+                    'description' => $product->description,
                     'category' => [
                         'id' => $product->category->id,
                         'name' => $product->category->name
@@ -81,6 +82,7 @@ class ApiController extends BaseController
                 'name' => $product->name,
                 'price' => $product->price,
                 'discount_price' => $product->discount_price,
+                'description' => $product->description,
                 'category' => $product->category ? [
                     'id' => $product->category->id,
                     'name' => $product->category->name,
