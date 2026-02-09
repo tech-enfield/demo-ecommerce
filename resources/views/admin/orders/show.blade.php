@@ -49,4 +49,4 @@
     <div class="mt-4 text-right font-semibold">
         Total: Rs. {{ number_format($order->total, 2) }}
     </div>
-    @section
+@endsection
