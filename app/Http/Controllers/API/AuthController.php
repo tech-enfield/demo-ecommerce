@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Throwable;
 
 class AuthController extends BaseController
 {
@@ -142,33 +143,38 @@ class AuthController extends BaseController
 
     public function sendResetLink(Request $request)
     {
-        // Validate the email input
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email', 'exists:users,email'],
-        ]);
+        try {
 
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => $validator->errors()->first(),
-            ], 422);
-        }
-
-        // Send password reset link
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json([
-                'success' => true,
-                'message' => __($status),
+            // Validate the email input
+            $validator = Validator::make($request->all(), [
+                'email' => ['required', 'email', 'exists:users,email'],
             ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => __($status),
-            ], 500);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $validator->errors()->first(),
+                ], 422);
+            }
+
+            // Send password reset link
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            if ($status === Password::RESET_LINK_SENT) {
+                return response()->json([
+                    'success' => true,
+                    'message' => __($status),
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => __($status),
+                ], 500);
+            }
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage());
         }
     }
 }
