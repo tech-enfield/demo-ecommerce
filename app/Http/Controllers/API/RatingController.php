@@ -38,7 +38,7 @@ class RatingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
+            'productId' => ['required', 'exists:products,id'],
             'rating' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);
 

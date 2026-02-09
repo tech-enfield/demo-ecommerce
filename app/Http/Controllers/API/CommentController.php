@@ -40,7 +40,7 @@ class CommentController extends BaseController
     {
         try {
             $request->validate([
-                'product_id' => ['required', 'exists:products,id'],
+                'productId' => ['required', 'exists:products,id'],
                 'comment' => ['required', 'string'],
             ]);
 
