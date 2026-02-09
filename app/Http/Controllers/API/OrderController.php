@@ -19,9 +19,21 @@ class OrderController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Order::with('items')->where('user_id', Auth::id())->get();
+        $query = Order::with('items')
+            ->where('user_id', Auth::id());
+
+        if ($request->status === 'active') {
+            $query->whereNotIn('status', ['completed', 'cancelled']);
+        }
+
+        if ($request->status === 'inactive') {
+            $query->whereIn('status', ['completed', 'cancelled']);
+        }
+
+        $data = $query->get();
+
         return $this->sendResponse($data);
     }
 
@@ -83,7 +95,7 @@ class OrderController extends BaseController
             User::where('id', $auth->id)
                 ->decrement('reward_point', $request->discount);
 
-                $user = User::where('id', $auth->id)->first();
+            $user = User::where('id', $auth->id)->first();
 
             return $this->sendResponse($order, $user->reward_point);
         } catch (Throwable $t) {

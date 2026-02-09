@@ -1,6 +1,6 @@
 @extends('admin.layouts.guest')
 
-@section('title', 'Sign In | Store 9Nepal Dashboard')
+@section('title', 'Sign In')
 
 @section('admin-guest-content')
     <!-- ===== Page Wrapper Start ===== -->
