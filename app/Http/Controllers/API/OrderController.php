@@ -53,7 +53,7 @@ class OrderController extends BaseController
                 'payment_method' => $request->payment_method,
                 'name' => $request->name,
                 'contact' => $request->contact,
-                'discount' => $request->discount,
+                'discount' => $request->discount != null ? $request->discount : 0,
                 'grand_total' => 0,
             ]);
 
