@@ -7,8 +7,9 @@ use App\Models\Rating;
 use App\Models\RatedBy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
-class RatingController extends Controller
+class RatingController extends BaseController
 {
     /**
      * Get rating for a product
@@ -37,50 +38,54 @@ class RatingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'productId' => ['required', 'exists:products,id'],
-            'rating' => ['required', 'numeric', 'min:1', 'max:5'],
-        ]);
-
-        $userId = Auth::id();
-
-        // Check if user already rated
-        $userRating = RatedBy::where('product_id', $request->productId)
-            ->where('user_id', $userId)
-            ->first();
-
-        if ($userRating) {
-            $userRating->update([
-                'rating' => $request->rating,
+        try {
+            $request->validate([
+                'product_id' => ['required', 'exists:products,id'],
+                'rating' => ['required', 'numeric', 'min:1', 'max:5'],
             ]);
-        } else {
-            RatedBy::create([
-                'product_id' => $request->productId,
-                'user_id' => $userId,
-                'rating' => $request->rating,
+
+            $userId = Auth::id();
+
+            // Check if user already rated
+            $userRating = RatedBy::where('product_id', $request->product_id)
+                ->where('user_id', $userId)
+                ->first();
+
+            if ($userRating) {
+                $userRating->update([
+                    'rating' => $request->rating,
+                ]);
+            } else {
+                RatedBy::create([
+                    'product_id' => $request->product_id,
+                    'user_id' => $userId,
+                    'rating' => $request->rating,
+                ]);
+            }
+
+            // Recalculate rating
+            $avgRating = RatedBy::where('product_id', $request->product_id)->avg('rating');
+            $count = RatedBy::where('product_id', $request->product_id)->count();
+
+            Rating::updateOrCreate(
+                ['product_id' => $request->product_id],
+                [
+                    'rating' => round($avgRating, 1),
+                    'count' => $count,
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Rating submitted successfully',
+                'data' => [
+                    'rating' => round($avgRating, 1),
+                    'count' => $count,
+                ],
             ]);
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage());
         }
-
-        // Recalculate rating
-        $avgRating = RatedBy::where('product_id', $request->productId)->avg('rating');
-        $count = RatedBy::where('product_id', $request->productId)->count();
-
-        Rating::updateOrCreate(
-            ['product_id' => $request->productId],
-            [
-                'rating' => round($avgRating, 1),
-                'count' => $count,
-            ]
-        );
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Rating submitted successfully',
-            'data' => [
-                'rating' => round($avgRating, 1),
-                'count' => $count,
-            ],
-        ]);
     }
 
     /**
