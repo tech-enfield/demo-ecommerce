@@ -38,7 +38,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin/',
         // Route::get('register', [RegisteredUserController::class, 'create'])
         //     ->name('register');
 
-        Route::get('register', function(){
+        Route::get('register', function () {
             return abort(403);
         })->name('register');
 
@@ -86,7 +86,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin/',
 
         Route::get('dashboard', 'HomeController@dashboard')->middleware(['verified'])->name('dashboard');
 
-        Route::middleware(['role:super-admin'])->group(function() {
+        Route::middleware(['role:super-admin'])->group(function () {
             Route::resource('users', 'UserController');
             Route::get('assign-role-to-user/{user}', 'UserController@assignRole')->name('assign.role');
             Route::post('assign-role-to-user/{user}', 'UserController@assignRoleStore')->name('assign.role.store');
@@ -136,8 +136,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin/',
 
         Route::post('banners/import', 'BannerController@importStore')->name('banners.import.store');
         Route::resource('banners', 'BannerController');
-        Route::resource('orders', 'OrderController');
+        Route::get('orders/{order}/items', 'OrderController@items')->name('orders.items');
         Route::put('/orders/{order}/status', 'OrderController@updateStatus');
-
+        Route::resource('orders', 'OrderController');
     });
 });

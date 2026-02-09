@@ -13,24 +13,7 @@
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
                         Orders
                     </h3>
-                    {{-- <a href="{{ route('admin.orders.create') }}">
-                        <button class="bg-success-500 px-5 py-1 rounded-lg text-white sm:hidden">Create</button></a> --}}
                 </div>
-                {{-- <form action="{{ route('admin.orders.index') }}" method="GET"
-                    class="col-span-1 sm:col-span-1 flex gap-2">
-                    <input type="text" name="product_name" placeholder="Search by product's name."
-                        value="{{ old('product_name') ?? request('product_name') }}"
-                        class="dark:bg-dark-900 h-12 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5
-            text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300
-            focus:outline-hidden focus:ring-3 focus:ring-brand-500/10
-            dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30
-            dark:focus:border-brand-800" />
-                    <button
-                        class="flex items-center justify-center px-3 text-sm font-medium text-white transition
-            rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
-                        Search
-                    </button>
-                </form> --}}
             </div>
 
 
@@ -108,7 +91,8 @@
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                                    <p @click="openOrder({{ $item->id }})"
+                                                        class="cursor-pointer font-medium text-indigo-600 hover:underline">
                                                         {{ $item->order_number }}
                                                     </p>
                                                 </div>
@@ -228,6 +212,52 @@
                 <div class="mt-4">
                     {{ $data->links('vendor.pagination.tailwind') }}
                 </div>
+                <div x-data="orderModal()" x-show="open" x-cloak
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div @click.outside="open = false"
+                        class="bg-white dark:bg-gray-900 w-full max-w-3xl rounded-lg shadow-lg p-6">
+                        <!-- Header -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-semibold">
+                                Order #<span x-text="order.order_number"></span>
+                            </h2>
+                            <button @click="open = false">✕</button>
+                        </div>
+
+                        <!-- Items -->
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b">
+                                    <th class="text-left py-2">Product</th>
+                                    <th>Variant</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template x-for="item in items" :key="item.product">
+                                    <tr class="border-b">
+                                        <td class="py-2" x-text="item.product"></td>
+                                        <td class="text-center" x-text="item.variant"></td>
+                                        <td class="text-center" x-text="item.quantity"></td>
+                                        <td class="text-right">Rs. <span x-text="item.price"></span></td>
+                                        <td class="text-right font-medium">
+                                            Rs. <span x-text="item.subtotal"></span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+
+                        <!-- Footer -->
+                        <div class="text-right mt-4">
+                            <p class="font-semibold">
+                                Grand Total: Rs. <span x-text="order.grand_total"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </aside>
@@ -271,6 +301,25 @@
                     console.error(err);
                     alert('Error updating status');
                 });
+        }
+    </script>
+    <script>
+        function orderModal() {
+            return {
+                open: false,
+                order: {},
+                items: [],
+
+                openOrder(id) {
+                    fetch(`/admin/orders/${id}/items`)
+                        .then(res => res.json())
+                        .then(data => {
+                            this.order = data.order
+                            this.items = data.items
+                            this.open = true
+                        })
+                }
+            }
         }
     </script>
 

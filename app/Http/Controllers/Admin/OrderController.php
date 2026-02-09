@@ -77,4 +77,22 @@ class OrderController extends Controller
 
         return response()->json(['success' => true, 'status' => $order->status]);
     }
+
+    public function items(Order $order)
+    {
+        $order->load(['items.variant.product']);
+
+        return response()->json([
+            'order' => $order,
+            'items' => $order->items->map(function ($item) {
+                return [
+                    'product'  => $item->variant->product->title ?? 'N/A',
+                    'variant'  => trim($item->variant->size . ' ' . $item->variant->color),
+                    'quantity' => $item->quantity,
+                    'price'    => $item->price,
+                    'subtotal' => $item->quantity * $item->price,
+                ];
+            }),
+        ]);
+    }
 }
