@@ -54,7 +54,17 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0|lt:price',
             'is_active' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store(
+                'products',
+                'public'
+            );
+        }
 
         Product::create([
             'name' => $validated['name'],
@@ -64,6 +74,7 @@ class ProductController extends Controller
             'price' => $validated['price'],
             'discount_price' => $validated['discount_price'] ?? null,
             'is_active' => $request->boolean('is_active'),
+            'image' => $imagePath,
         ]);
 
         return redirect()
@@ -87,9 +98,12 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $data = Product::paginate(10);
-        return view('admin.products.edit', ['data' => $data, 'product' => $product,
+        return view('admin.products.edit', [
+            'data' => $data,
+            'product' => $product,
             'categories' => Category::orderBy('name')->get(),
-            'brands' => Brand::orderBy('name')->get()]);
+            'brands' => Brand::orderBy('name')->get()
+        ]);
     }
 
     /**
@@ -105,7 +119,25 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'discount_price' => 'nullable|numeric|min:0|lt:price',
             'is_active' => 'nullable|boolean',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
+
+        $imagePath = $product->image;
+
+        // If new image uploaded
+        if ($request->hasFile('image')) {
+
+            // 🔥 Delete old image if exists
+            if ($product->image && Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+
+            // Store new image
+            $imagePath = $request->file('image')->store(
+                'products',
+                'public'
+            );
+        }
 
         $product->update([
             'name' => $validated['name'],
@@ -115,6 +147,7 @@ class ProductController extends Controller
             'price' => $validated['price'],
             'discount_price' => $validated['discount_price'] ?? null,
             'is_active' => $request->boolean('is_active'),
+            'image' => $imagePath,
         ]);
 
         return redirect()
@@ -128,6 +161,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
         $product->delete();
         return redirect(route('admin.products.index'));
     }

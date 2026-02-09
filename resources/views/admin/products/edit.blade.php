@@ -10,7 +10,7 @@
                     Edit Product
                 </h3>
 
-                <form action="{{ route('admin.products.update', $product->id) }}" method="POST">
+                <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
 
@@ -59,6 +59,14 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <div>
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                                Product Image
+                            </label>
+                            <input type="file" name="image" accept="image/*"
+                                class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 text-sm">
                         </div>
 
                         <!-- Description -->
@@ -259,7 +267,8 @@
                                                 ✏️
                                             </a>
 
-                                            <form action="{{ route('admin.products.destroy', $item->id) }}" method="POST">
+                                            <form action="{{ route('admin.products.destroy', $item->id) }}"
+                                                method="POST">
                                                 @csrf @method('DELETE')
                                                 <button onclick="return confirm('Delete {{ $item->name }}?')"
                                                     title="Delete">
