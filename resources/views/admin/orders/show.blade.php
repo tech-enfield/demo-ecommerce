@@ -27,10 +27,11 @@
             @foreach ($order->items as $item)
                 <tr class="border-t">
                     <td class="px-4 py-2">
-                        {{ $item->variant->product->title ?? '-' }}
+                        {{ $item->variant->product->name ?? '-' }}
                     </td>
                     <td class="px-4 py-2">
-                        {{ $item->variant->title ?? '-' }}
+                        {{-- {{ $item->variant->title ?? '-' }} --}}
+                        Color Family: {{ $item->variant->color }} | Size: {{ $item->variant->size }}
                     </td>
                     <td class="px-4 py-2">
                         {{ $item->quantity }}
