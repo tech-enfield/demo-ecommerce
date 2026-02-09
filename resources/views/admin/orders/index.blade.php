@@ -63,6 +63,20 @@
                             <th class="py-3">
                                 <div class="flex items-center">
                                     <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                        Delivery Address
+                                    </p>
+                                </div>
+                            </th>
+                            <th class="py-3">
+                                <div class="flex items-center">
+                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
+                                        Payment Method
+                                    </p>
+                                </div>
+                            </th>
+                            <th class="py-3">
+                                <div class="flex items-center">
+                                    <p class="font-medium text-gray-500 text-theme-xs dark:text-gray-400">
                                         Status
                                     </p>
                                 </div>
@@ -112,6 +126,20 @@
                                         <div class="flex items-center">
                                             <p class="text-gray-500 text-theme-sm dark:text-gray-400">
                                                 {{ $item->contact }}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                                {{ $item->shipping_address }}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center">
+                                            <p class="text-gray-500 text-theme-sm dark:text-gray-400">
+                                                {{ $item->payment_method }}
                                             </p>
                                         </div>
                                     </td>
