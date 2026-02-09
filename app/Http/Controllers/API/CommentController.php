@@ -44,11 +44,15 @@ class CommentController extends BaseController
                 'comment' => ['required', 'string'],
             ]);
 
-            $comment = Comment::create([
-                'product_id' => $request->productId,
-                'user_id' => Auth::id(),
-                'comment' => $request->comment,
-            ]);
+            $comment = Comment::updateOrCreate(
+                [
+                    'product_id' => $request->productId,
+                    'user_id' => Auth::id()
+                ],
+                [
+                    'comment' => $request->comment,
+                ]
+            );
 
             return response()->json([
                 'success' => true,
