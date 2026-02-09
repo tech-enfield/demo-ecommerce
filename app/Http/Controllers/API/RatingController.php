@@ -76,12 +76,12 @@ class RatingController extends BaseController
             );
 
             return response()->json([
-                'success' => true,
-                'message' => 'Rating submitted successfully',
-                'data' => [
+                // 'success' => true,
+                // 'message' => 'Rating submitted successfully',
+                // 'data' => [
                     'rating' => round($avgRating, 1),
                     'count' => $count,
-                ],
+                // ],
             ]);
         } catch (Throwable $t) {
             return $this->sendError($t->getMessage());
