@@ -121,6 +121,9 @@ class OrderController extends BaseController
      */
     public function destroy(Order $order)
     {
-        //
+        $auth = User::find(Auth::id());
+        $auth->reward_point = $auth->reward_point + $order->discount;
+        $order->update(['status' => 'cancelled']);
+        return $this->sendResponse();
     }
 }
