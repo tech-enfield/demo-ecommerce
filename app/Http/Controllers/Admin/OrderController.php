@@ -38,7 +38,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order->load([
+            'items.variant.product' // adjust if needed
+        ]);
+
+        return view('admin.orders.show', compact('order'));
     }
 
     /**
