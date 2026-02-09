@@ -19,6 +19,7 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'as' => 'api.'], functi
             Route::post('delete', 'deleteAccount')->name('delete');
             Route::post('change-password', 'changePassword')->name('change-password');
         });
+        Route::post('forgot-password','sendResetLink')->name('forgot-password');
     });
     Route::group(['controller' => 'ApiController'], function(){
         Route::get('home', 'home')->name('home');
