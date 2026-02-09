@@ -7,8 +7,9 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Throwable;
 
-class CommentController extends Controller
+class CommentController extends BaseController
 {
     /**
      * Display a listing of comments for a product.
@@ -37,22 +38,26 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'product_id' => ['required', 'exists:products,id'],
-            'comment' => ['required', 'string'],
-        ]);
+        try {
+            $request->validate([
+                'product_id' => ['required', 'exists:products,id'],
+                'comment' => ['required', 'string'],
+            ]);
 
-        $comment = Comment::create([
-            'product_id' => $request->productId,
-            'user_id' => Auth::id(),
-            'comment' => $request->comment,
-        ]);
+            $comment = Comment::create([
+                'product_id' => $request->productId,
+                'user_id' => Auth::id(),
+                'comment' => $request->comment,
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Comment added successfully',
-            'data' => $comment,
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Comment added successfully',
+                'data' => $comment,
+            ], 201);
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage());
+        }
     }
 
     /**
