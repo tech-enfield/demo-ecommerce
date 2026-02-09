@@ -91,9 +91,13 @@
                                         <div class="flex items-center">
                                             <div class="flex items-center gap-3">
                                                 <div>
-                                                    <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                                    {{-- <p class="font-medium text-gray-800 text-theme-sm dark:text-white/90">
                                                         {{ $item->order_number }}
-                                                    </p>
+                                                    </p> --}}
+                                                    <a href="{{ route('admin.orders.show', $item->id) }}"
+                                                        class="font-medium text-indigo-600 hover:underline">
+                                                        {{ $item->order_number }}
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
