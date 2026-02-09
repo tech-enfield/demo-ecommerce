@@ -41,7 +41,7 @@ class ApiController extends BaseController
                         'id' => $product->brand->id,
                         'name' => $product->brand->name
                     ],
-                    'image' => $product->images->first() ? asset('storage/' . $product->images->first()->path) : null,
+                    // 'image' => $product->images->first() ? asset('storage/' . $product->images->first()->path) : null,
                     'variants' => $product->variants,
                 ];
             });
@@ -93,9 +93,9 @@ class ApiController extends BaseController
                     'id' => $product->brand->id,
                     'name' => $product->brand->name,
                 ] : null,
-                'image' => $product->images->first()
-                    ? asset('storage/' . $product->images->first()->path)
-                    : null,
+                // 'image' => $product->images->first()
+                //     ? asset('storage/' . $product->images->first()->path)
+                //     : null,
                 'variants' => $product->variants,
             ];
         });
