@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class ApiController extends BaseController
 {
@@ -109,9 +110,14 @@ class ApiController extends BaseController
 
     public function singleProduct(Request $request, $id)
     {
-        $product = Product::with(['variants', 'comments', 'rating'])->find($id);
+        try {
 
-        return $this->sendResponse($product);
+            $product = Product::with(['variants', 'comments', 'rating'])->find($id);
+
+            return $this->sendResponse($product);
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage());
+        }
     }
 
     public function removeCartItem(Request $request, $id)
