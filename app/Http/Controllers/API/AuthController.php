@@ -102,24 +102,29 @@ class AuthController extends BaseController
 
     public function changePassword(Request $request)
     {
-        $user = User::find(Auth::id());
+        try {
 
-        $request->validate([
-            'current_password' => ['required'],
-            'new_password'     => ['required', 'min:8', 'confirmed'],
-        ]);
+            $user = User::find(Auth::id());
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return $this->sendError('Current password is incorrect.', null, 422);
+            $request->validate([
+                'current_password' => ['required'],
+                'new_password'     => ['required', 'min:8', 'confirmed'],
+            ]);
+
+            if (!Hash::check($request->current_password, $user->password)) {
+                return $this->sendError('Current password is incorrect.', null, 422);
+            }
+
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+
+            // Optional: revoke all tokens after password change
+            $user->tokens()->delete();
+
+            return $this->sendResponse(null, 'Password Changed successfully');
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage(), 500);
         }
-
-        $user->password = Hash::make($request->new_password);
-        $user->save();
-
-        // Optional: revoke all tokens after password change
-        $user->tokens()->delete();
-
-        return $this->sendResponse(null, 'Password Changed successfully');
     }
 
     public function deleteAccount(Request $request)
