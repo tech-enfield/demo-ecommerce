@@ -108,7 +108,7 @@ class AuthController extends BaseController
 
             $request->validate([
                 'current_password' => ['required'],
-                'new_password'     => ['required', 'min:8', 'confirmed'],
+                'new_password'     => ['required', 'min:8'],
             ]);
 
             if (!Hash::check($request->current_password, $user->password)) {
