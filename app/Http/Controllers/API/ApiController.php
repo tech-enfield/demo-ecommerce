@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Expr\Throw_;
 use Throwable;
 
 class ApiController extends BaseController
@@ -64,57 +65,61 @@ class ApiController extends BaseController
 
     public function products(Request $request)
     {
-        $query = Product::with([
-            'images' => function ($q) {
-                $q->where('is_primary', true);
-            },
-            'category:id,name',
-            'brand:id,name',
-            'variants',
-        ])
-            ->where('is_active', true)->query();
+        try {
+            $query = Product::with([
+                'images' => function ($q) {
+                    $q->where('is_primary', true);
+                },
+                'category:id,name',
+                'brand:id,name',
+                'variants',
+            ])
+                ->where('is_active', true)->query();
 
-            if($request->filled('search')) {
+            if ($request->filled('search')) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             }
 
             $products = $query->paginate(10);
 
 
-        // Transform paginated collection
-        $products->getCollection()->transform(function ($product) {
-            return [
-                'id' => $product->id,
-                'name' => $product->name,
-                'price' => $product->price,
-                'discount_price' => $product->discount_price,
-                'description' => $product->description,
-                'image' => $product->image,
-                'category' => $product->category ? [
-                    'id' => $product->category->id,
-                    'name' => $product->category->name,
-                ] : null,
-                'brand' => $product->brand ? [
-                    'id' => $product->brand->id,
-                    'name' => $product->brand->name,
-                ] : null,
-                // 'image' => $product->images->first()
-                //     ? asset('storage/' . $product->images->first()->path)
-                //     : null,
-                'variants' => $product->variants,
-            ];
-        });
+            // Transform paginated collection
+            $products->getCollection()->transform(function ($product) {
+                return [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'discount_price' => $product->discount_price,
+                    'description' => $product->description,
+                    'image' => $product->image,
+                    'category' => $product->category ? [
+                        'id' => $product->category->id,
+                        'name' => $product->category->name,
+                    ] : null,
+                    'brand' => $product->brand ? [
+                        'id' => $product->brand->id,
+                        'name' => $product->brand->name,
+                    ] : null,
+                    // 'image' => $product->images->first()
+                    //     ? asset('storage/' . $product->images->first()->path)
+                    //     : null,
+                    'variants' => $product->variants,
+                ];
+            });
 
-        return $this->sendResponse([
-            'products' => $products->items(),
-            'pagination' => [
-                'current_page' => $products->currentPage(),
-                'last_page' => $products->lastPage(),
-                'per_page' => $products->perPage(),
-                'total' => $products->total(),
-                'has_more' => $products->hasMorePages(),
-            ],
-        ]);
+            return $this->sendResponse([
+                'products' => $products->items(),
+                'pagination' => [
+                    'current_page' => $products->currentPage(),
+                    'last_page' => $products->lastPage(),
+                    'per_page' => $products->perPage(),
+                    'total' => $products->total(),
+                    'has_more' => $products->hasMorePages(),
+                ],
+            ]);
+        } catch (Throwable $t) {
+            return $this->sendError($t->getMessage(), '', '500');
+        }
     }
 
     public function singleProduct(Request $request, $id)

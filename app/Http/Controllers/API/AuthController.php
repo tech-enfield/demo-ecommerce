@@ -135,9 +135,6 @@ class AuthController extends BaseController
             return $this->sendError('Current password is incorrect.', null, 422);
         }
 
-        // Revoke all tokens
-        $user->tokens()->delete();
-
         $user->delete();
 
         return $this->sendResponse(null, 'Account deleted successfully');
