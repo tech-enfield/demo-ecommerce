@@ -74,7 +74,7 @@ class ApiController extends BaseController
                 'brand:id,name',
                 'variants',
             ])
-                ->where('is_active', true)->query();
+                ->where('is_active', true);
 
             if ($request->filled('search')) {
                 $query->where('name', 'like', '%' . $request->search . '%');
