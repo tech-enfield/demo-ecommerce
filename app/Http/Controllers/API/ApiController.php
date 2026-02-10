@@ -64,7 +64,7 @@ class ApiController extends BaseController
 
     public function products(Request $request)
     {
-        $products = Product::with([
+        $query = Product::with([
             'images' => function ($q) {
                 $q->where('is_primary', true);
             },
@@ -72,8 +72,13 @@ class ApiController extends BaseController
             'brand:id,name',
             'variants',
         ])
-            ->where('is_active', true)
-            ->paginate(10);
+            ->where('is_active', true)->query();
+
+            if($request->filled('search')) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            }
+
+            $products = $query->paginate(10);
 
 
         // Transform paginated collection
